@@ -64,4 +64,16 @@ public class Book {
     public void setQuantity(short quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", genre='" + genre + '\'' +
+                ", year=" + year +
+                ", volume=" + volume +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

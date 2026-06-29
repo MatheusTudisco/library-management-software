@@ -12,14 +12,13 @@ public class User {
     private String email;
     private String password;
 
-    public User(Long id, String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String password, String email) {
-        this.id = id;
+    public User(String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email) {
+        //this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.cpf = cpf;
         this.dateOfBirth = dateOfBirth;
         this.cellphone = cellphone;
-        this.password = password;
         this.email = email;
     }
 
@@ -85,5 +84,17 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "{ name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", cellphone='" + cellphone + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
