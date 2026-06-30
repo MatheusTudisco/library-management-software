@@ -2,6 +2,8 @@ package com.matheustudisco.librarymanagementsoftware;
 
 import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.model.User;
+import com.matheustudisco.librarymanagementsoftware.service.UserService;
+import com.matheustudisco.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +14,9 @@ import java.util.Scanner;
 public class App {
     public static void main( String[] args )
     {
+        UserRepository userRepository = new UserRepository();
+        UserService userService = new UserService(userRepository);
+
         Scanner scanner = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         List<User> user = new ArrayList<>();
@@ -49,7 +54,8 @@ public class App {
                 System.out.print("Digite o email: ");
                 String email = scanner.nextLine();
 
-                user.add(new User(name, lastName, cpf, dateOfBirth, cellphone, email));
+                User newUser = new User(name, lastName, cpf, dateOfBirth, cellphone, email);
+                userService.registrationService(newUser);
 
             } else if (escolha == 2) {
                 System.out.print("Digite o nome do livro: ");
