@@ -1,7 +1,7 @@
 package com.matheustudisco.librarymanagementsoftware.service;
 
 import com.matheustudisco.librarymanagementsoftware.model.User;
-import com.matheustudisco.repository.UserRepository;
+import com.matheustudisco.librarymanagementsoftware.repository.UserRepository;
 
 public class UserService {
 

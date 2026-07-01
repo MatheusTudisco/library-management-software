@@ -2,8 +2,8 @@ package com.matheustudisco.librarymanagementsoftware;
 
 import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.model.User;
+import com.matheustudisco.librarymanagementsoftware.repository.UserRepository;
 import com.matheustudisco.librarymanagementsoftware.service.UserService;
-import com.matheustudisco.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -78,10 +78,8 @@ public class App {
                 for (int i=0; i<=50; i++) {
                     System.out.println();
                 }
-
-                for (User users : user){
-                    System.out.println(users);
-                }
+                
+               System.out.println(userRepository.showUser());
 
                 System.out.println("Digite 1 para encerrar");
                 System.out.println("Digite 2 para voltar ao menu principal");

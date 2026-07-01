@@ -1,4 +1,4 @@
-package com.matheustudisco.repository;
+package com.matheustudisco.librarymanagementsoftware.repository;
 
 import java.util.ArrayList;
 import java.util.List;

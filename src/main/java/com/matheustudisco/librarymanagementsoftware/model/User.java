@@ -88,13 +88,12 @@ public class User {
 
     @Override
     public String toString() {
-        return "{ name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", cellphone='" + cellphone + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return "Usuarios cadastrados: \n" + 
+        "Name: " + name + "\n" +
+        "Last Name: " + lastName +"\n" +
+        "CPF: " + cpf + "\n" +
+        "Date of Birth: " + dateOfBirth + "\n" +
+        "Cellphone: " + cellphone + "\n" +
+        "Email: " + email + "\n\n";
     }
 }
