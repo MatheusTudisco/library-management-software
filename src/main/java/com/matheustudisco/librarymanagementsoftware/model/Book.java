@@ -67,13 +67,12 @@ public class Book {
 
     @Override
     public String toString() {
-        return "{" +
-                "title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", genre='" + genre + '\'' +
-                ", year=" + year +
-                ", volume=" + volume +
-                ", quantity=" + quantity +
-                '}';
+        return "Livros cadastrados: \n" +
+                "Title: " + title + "\n" +
+                "Author " + author + "\n" +
+                "Genre: " + genre + "\n" +
+                "Year: " + year + "\n" +
+                "Volume: " + volume + "\n" +
+                "Quantity: " + quantity + "\n\n";
     }
 }

@@ -1,6 +1,7 @@
 package com.matheustudisco.librarymanagementsoftware.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class User {
     private Long id;
@@ -11,6 +12,8 @@ public class User {
     private String cellphone;
     private String email;
     private String password;
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public User(String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email) {
         //this.id = id;
@@ -88,12 +91,12 @@ public class User {
 
     @Override
     public String toString() {
-        return "Usuarios cadastrados: \n" + 
-        "Name: " + name + "\n" +
-        "Last Name: " + lastName +"\n" +
-        "CPF: " + cpf + "\n" +
-        "Date of Birth: " + dateOfBirth + "\n" +
-        "Cellphone: " + cellphone + "\n" +
-        "Email: " + email + "\n\n";
+        return "Usuarios cadastrados: \n" +
+                "Name: " + name + "\n" +
+                "Last Name: " + lastName + "\n" +
+                "CPF: " + cpf + "\n" +
+                "Date of Birth: " + dateOfBirth.format(formatter) + "\n" +
+                "Cellphone: " + cellphone + "\n" +
+                "Email: " + email + "\n\n";
     }
 }

@@ -2,7 +2,9 @@ package com.matheustudisco.librarymanagementsoftware;
 
 import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.model.User;
+import com.matheustudisco.librarymanagementsoftware.repository.BookRepository;
 import com.matheustudisco.librarymanagementsoftware.repository.UserRepository;
+import com.matheustudisco.librarymanagementsoftware.service.BookService;
 import com.matheustudisco.librarymanagementsoftware.service.UserService;
 
 import java.time.LocalDate;
@@ -12,10 +14,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class App {
-    public static void main( String[] args )
-    {
+    public static void main(String[] args) {
         UserRepository userRepository = new UserRepository();
         UserService userService = new UserService(userRepository);
+
+        BookRepository bookRepository = new BookRepository();
+        BookService bookService = new BookService(bookRepository);
 
         Scanner scanner = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -24,7 +28,7 @@ public class App {
 
         boolean selecaoWhile = false;
 
-        while (selecaoWhile == false){
+        while (selecaoWhile == false) {
             System.out.println("=====================================");
             System.out.println("BEM VINDO AO LBM");
             System.out.println("Digite 1 para cadastrar usuario");
@@ -71,15 +75,16 @@ public class App {
                 System.out.print("Digite a quantidade disponivel: ");
                 short quantity = Short.parseShort(scanner.nextLine());
 
-                book.add(new Book(title, author, genre, year, volume, quantity));
+                Book newBook = new Book(title, author, genre, year, volume, quantity);
+                bookService.registrationBook(newBook);
 
-            } else if (escolha == 3){
+            } else if (escolha == 3) {
                 //For para "limpar a tela", técnica do pulo de linhas
-                for (int i=0; i<=50; i++) {
+                for (int i = 0; i <= 50; i++) {
                     System.out.println();
                 }
-                
-               System.out.println(userRepository.showUser());
+
+                System.out.println(userRepository.showUser());
 
                 System.out.println("Digite 1 para encerrar");
                 System.out.println("Digite 2 para voltar ao menu principal");
@@ -94,13 +99,10 @@ public class App {
 
             } else if (escolha == 4) {
                 //For para "limpar a tela", técnica do pulo de linhas
-                for (int i=0; i<=50; i++) {
+                for (int i = 0; i <= 50; i++) {
                     System.out.println();
                 }
-
-                for (Book books : book) {
-                    System.out.println(books);
-                }
+                System.out.println(bookRepository.showBook());
 
                 System.out.println("Digite 1 para encerrar");
                 System.out.println("Digite 2 para voltar ao menu principal");
@@ -117,7 +119,7 @@ public class App {
                 selecaoWhile = true;
 
                 //For para "limpar a tela", técnica do pulo de linhas
-                for (int i=0; i<=50; i++) {
+                for (int i = 0; i <= 50; i++) {
                     System.out.println();
                 }
 
