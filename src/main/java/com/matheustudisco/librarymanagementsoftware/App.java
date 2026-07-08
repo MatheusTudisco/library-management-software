@@ -28,26 +28,41 @@ public class App {
         List<Book> book = new ArrayList<>();
 
         boolean selecaoWhile = false;
+        System.out.println("=====================================");
+        System.out.println("BEM VINDO AO LBM");
 
         while (!selecaoWhile) {
+            int escolha;
             System.out.println("=====================================");
-            System.out.println("BEM VINDO AO LBM");
-            System.out.println("Digite 1 para cadastrar usuario");
+            System.out.println("Digite 1 para cadastrar usuário");
             System.out.println("Digite 2 para cadastrar livro");
-            System.out.println("Digite 3 para mostrar usuarios cadastrados");
+            System.out.println("Digite 3 para mostrar usuários cadastrados");
             System.out.println("Digite 4 para mostrar livros cadastrados");
             System.out.println("Digite 5 para encerrar");
             System.out.println("=====================================");
+            System.out.println();
+            System.out.print("Sua escolha: ");
 
             /*
                 Utilizei o Integer.parse para transformar o String que vem do nextLine() em inteiro,
                 porque quando se usa o nextInt gera um buffer e quero evitar isso.
              */
-            int escolha = Integer.parseInt(scanner.nextLine());
+            try {
+                escolha = Integer.parseInt(scanner.nextLine());
+            }  catch (NumberFormatException exception){
+                System.out.println("---------------------------------------------------------");
+                System.out.println("Erro! caractere inválido, insira apenas o número desejado");
+                System.out.println("---------------------------------------------------------");
+                continue;
+            }
 
             if (escolha == 1) {
                 String name = "", lastName = "", cpf = "", cellphone = "", email = "";
                 LocalDate dateOfBirth = null;
+
+                System.out.println("---------------------------------------------------------");
+                System.out.println("                   CADASTRO DE USUÁRIO");
+                System.out.println("---------------------------------------------------------");
 
                 //Loop para não permitir o preenchimento vazio.
                 while (name.isEmpty()) {
@@ -118,6 +133,10 @@ public class App {
                 int year = 0;
                 byte volume = 0;
                 short quantity = 0;
+
+                System.out.println("---------------------------------------------------------");
+                System.out.println("                   CADASTRO DE LIVRO");
+                System.out.println("---------------------------------------------------------");
 
                 while (title.isEmpty()) {
                     System.out.print("Digite o nome do livro: ");
@@ -215,7 +234,7 @@ public class App {
                     System.out.println("Digite uma opção válida");
                 }
 
-            } else {
+            } else if (escolha == 5){
                 selecaoWhile = true;
 
                 //For para "limpar a tela", técnica do pulo de linhas
@@ -226,6 +245,10 @@ public class App {
                 System.out.println("=====================================");
                 System.out.println(">>>>>ENCERRANDO O SISTEMA<<<<<");
                 System.out.println("=====================================");
+            } else {
+                System.out.println("--------------------------------------------------------");
+                System.out.println("Erro! Digite uma opção válida");
+                System.out.println("--------------------------------------------------------");
             }
         }
 
