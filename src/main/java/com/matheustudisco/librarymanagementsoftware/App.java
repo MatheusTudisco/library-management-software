@@ -1,6 +1,8 @@
 package com.matheustudisco.librarymanagementsoftware;
 
 import com.matheustudisco.librarymanagementsoftware.exception.CpfInvalidoException;
+import com.matheustudisco.librarymanagementsoftware.exception.DataNascInvalidoException;
+import com.matheustudisco.librarymanagementsoftware.exception.NomeInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.model.User;
 import com.matheustudisco.librarymanagementsoftware.repository.BookRepository;
@@ -65,19 +67,24 @@ public class App {
                 System.out.println("                   CADASTRO DE USUÁRIO");
                 System.out.println("---------------------------------------------------------");
 
-                //Loop para não permitir o preenchimento vazio.
-                while (name.isEmpty()) {
-                    System.out.print("Digite o primeiro nome: ");
-                    name = scanner.nextLine();
-                    if (name.isEmpty()) {
-                        System.out.println("Erro! O campo nome não pode estar vazio.");
+                boolean nameBoolean = false;
+                while (!nameBoolean) {
+                    try {
+                        System.out.print("Digite o nome: ");
+                        name = scanner.nextLine().trim();
+                        nameBoolean = userService.validarNome(name);
+                    } catch (NomeInvalidoException e) {
+                        System.out.println(e.getMessage());
                     }
                 }
-                while (lastName.isEmpty()) {
-                    System.out.print("Digite o ultimo nome: ");
-                    lastName = scanner.nextLine();
-                    if (lastName.isEmpty()) {
-                        System.out.println("Erro! O campo último nome não pode estar vazio.");
+                boolean lastnameBoolean = false;
+                while (!lastnameBoolean) {
+                    try {
+                        System.out.print("Digite o ultimo nome: ");
+                        lastName = scanner.nextLine().trim();
+                        lastnameBoolean = userService.validarSobrenome(lastName);
+                    } catch (NomeInvalidoException e) {
+                        System.out.println(e.getMessage());
                     }
                 }
                 /* Criação de uma variável booleana para capturar o retorno
@@ -96,28 +103,19 @@ public class App {
                         System.out.println(e.getMessage());
                     }
                 }
-                /*
-                 * Para validar a verificação de um campo vazio na digitação, primeiro
-                 * inicio a variável dateOfBirth como "null", após entrar no while ele pede
-                 * ao usuário que digite a data, salva em uma variável String para poder
-                 * validar se o usuário deixe vazia, caso se confirme ele exibe a mensagem de erro
-                 * na tela e o "continue" força a retornar para o teste de condição do loop.
-                 * Caso o usuário faça a digitação, ele passa para a variável LocalDate
-                 * a variável String com o parse e faz a verificação com o DateTimeParseException se
-                 * o formato escrito está correto, ou se o usuário digitou algum caractere inválido.
-                 * Caso tudo estiver correto ele pula para o próximo item do cadastro.
-                 */
-                while (dateOfBirth == null) {
-                    System.out.print("Digite a data de nascimento (DD/MM/AAAA): ");
-                    String dateOfBirthString = scanner.nextLine();
-                    if (dateOfBirthString.isEmpty()) {
-                        System.out.println("Erro! O campo Data de nascimento não pode estar vazio.");
-                        continue;
-                    }
+                boolean dateBirthBoolean = false;
+                while (!dateBirthBoolean) { //OU while (dateBirtBoolean = false)
                     try {
+                        System.out.print("Digite a data de nascimento (DD/MM/AAAA): ");
+                        String dateOfBirthString = scanner.nextLine();
+                        dateBirthBoolean = userService.validarDataNasc(dateOfBirthString);
                         dateOfBirth = LocalDate.parse(dateOfBirthString, formatter);
+                    } catch (DataNascInvalidoException e) {
+                        System.out.println(e.getMessage());
+                        dateBirthBoolean = false;
                     } catch (DateTimeException e) {
                         System.out.println("Erro! Formato inválido ou data inexistente");
+                        dateBirthBoolean = false;
                     }
                 }
                 while (cellphone.isEmpty()) {
