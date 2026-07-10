@@ -1,5 +1,6 @@
 package com.matheustudisco.librarymanagementsoftware;
 
+import com.matheustudisco.librarymanagementsoftware.exception.CpfInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.model.User;
 import com.matheustudisco.librarymanagementsoftware.repository.BookRepository;
@@ -49,7 +50,7 @@ public class App {
              */
             try {
                 escolha = Integer.parseInt(scanner.nextLine());
-            }  catch (NumberFormatException exception){
+            } catch (NumberFormatException exception) {
                 System.out.println("---------------------------------------------------------");
                 System.out.println("Erro! caractere inválido, insira apenas o número desejado");
                 System.out.println("---------------------------------------------------------");
@@ -79,11 +80,20 @@ public class App {
                         System.out.println("Erro! O campo último nome não pode estar vazio.");
                     }
                 }
-                while (cpf.isEmpty()) {
-                    System.out.print("Digite o cpf: ");
-                    cpf = scanner.nextLine();
-                    if (cpf.isEmpty()) {
-                        System.out.println("Erro! O campo CPF não pode estar vazio.");
+                /* Criação de uma variável booleana para capturar o retorno
+                 * do método validarCPF. Se o método passar por todas as regras sem erros
+                 * o método retorna true e atribui isso ao cpfBoolean gerando uma interrupção do loop,
+                 * mas caso a regra lance uma exceção, o fluxo é desviado para o catch, mantendo a
+                 * variável como false e forçando o loop a continuar até que a digitação esteja correta.
+                 */
+                boolean cpfBoolean = false;
+                while (!cpfBoolean) {
+                    try {
+                        System.out.print("Digite o cpf: ");
+                        cpf = scanner.nextLine();
+                        cpfBoolean = userService.validarCPF(cpf);
+                    } catch (CpfInvalidoException e) {
+                        System.out.println(e.getMessage());
                     }
                 }
                 /*
@@ -182,7 +192,8 @@ public class App {
                     quantityString = scanner.nextLine();
                     if (quantityString.isEmpty()) {
                         System.out.println("Erro! O campo quantidade não pode estar vazio.");
-                    } else {;
+                    } else {
+                        ;
                         quantity = Short.parseShort(quantityString);
                     }
                 }
@@ -234,7 +245,7 @@ public class App {
                     System.out.println("Digite uma opção válida");
                 }
 
-            } else if (escolha == 5){
+            } else if (escolha == 5) {
                 selecaoWhile = true;
 
                 //For para "limpar a tela", técnica do pulo de linhas
