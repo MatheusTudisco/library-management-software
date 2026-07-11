@@ -1,5 +1,6 @@
 package com.matheustudisco.librarymanagementsoftware;
 
+import com.matheustudisco.librarymanagementsoftware.exception.CelularInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.CpfInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.DataNascInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.NomeInvalidoException;
@@ -31,19 +32,21 @@ public class App {
         List<Book> book = new ArrayList<>();
 
         boolean selecaoWhile = false;
-        System.out.println("=====================================");
-        System.out.println("BEM VINDO AO LBM");
+        System.out.println("""
+                =====================================
+                        BEM VINDO AO LBM""");
 
         while (!selecaoWhile) {
             int escolha;
-            System.out.println("=====================================");
-            System.out.println("Digite 1 para cadastrar usuário");
-            System.out.println("Digite 2 para cadastrar livro");
-            System.out.println("Digite 3 para mostrar usuários cadastrados");
-            System.out.println("Digite 4 para mostrar livros cadastrados");
-            System.out.println("Digite 5 para encerrar");
-            System.out.println("=====================================");
-            System.out.println();
+            System.out.println("""
+                    =====================================
+                    Digite 1 para cadastrar usuário.
+                    Digite 2 para cadastrar livro.
+                    Digite 3 para mostrar usuários cadastrados.
+                    Digite 4 para mostrar livros cadastrados.
+                    Digite 5 para encerrar.
+                    =====================================
+                    """);
             System.out.print("Sua escolha: ");
 
             /*
@@ -53,9 +56,10 @@ public class App {
             try {
                 escolha = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException exception) {
-                System.out.println("---------------------------------------------------------");
-                System.out.println("Erro! caractere inválido, insira apenas o número desejado");
-                System.out.println("---------------------------------------------------------");
+                System.out.println("""
+                        ---------------------------------------------------------
+                        Erro! caractere inválido, insira apenas o número desejado
+                        ---------------------------------------------------------""");
                 continue;
             }
 
@@ -63,9 +67,10 @@ public class App {
                 String name = "", lastName = "", cpf = "", cellphone = "", email = "";
                 LocalDate dateOfBirth = null;
 
-                System.out.println("---------------------------------------------------------");
-                System.out.println("                   CADASTRO DE USUÁRIO");
-                System.out.println("---------------------------------------------------------");
+                System.out.println("""
+                        ---------------------------------------------------------
+                                           CADASTRO DE USUÁRIO
+                        ---------------------------------------------------------""");
 
                 boolean nameBoolean = false;
                 while (!nameBoolean) {
@@ -114,15 +119,21 @@ public class App {
                         System.out.println(e.getMessage());
                         dateBirthBoolean = false;
                     } catch (DateTimeException e) {
-                        System.out.println("Erro! Formato inválido ou data inexistente");
+                        System.out.println("""
+                                -----------------------------------------------------------------------
+                                Erro! Formato inválido ou data inexistente
+                                -----------------------------------------------------------------------""");
                         dateBirthBoolean = false;
                     }
                 }
-                while (cellphone.isEmpty()) {
-                    System.out.print("Digite o numero de celular: ");
-                    cellphone = scanner.nextLine();
-                    if (cellphone.isEmpty()) {
-                        System.out.println("Erro! O campo celular não pode estar vazio.");
+                boolean cellphoneBoolean = false;
+                while (!cellphoneBoolean) {
+                    try {
+                        System.out.print("Digite o numero de celular com prefixo: ");
+                        cellphone = scanner.nextLine();
+                        cellphoneBoolean = userService.validarCelular(cellphone);
+                    } catch (CelularInvalidoException e) {
+                        System.out.println(e.getMessage());
                     }
                 }
                 while (email.isEmpty()) {
