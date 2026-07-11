@@ -3,9 +3,14 @@ package com.matheustudisco.librarymanagementsoftware.service;
 import com.matheustudisco.librarymanagementsoftware.exception.CelularInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.CpfInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.DataNascInvalidoException;
+import com.matheustudisco.librarymanagementsoftware.exception.EmailInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.NomeInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.model.User;
 import com.matheustudisco.librarymanagementsoftware.repository.UserRepository;
+
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class UserService {
 
@@ -23,9 +28,9 @@ public class UserService {
                     -----------------------------------------------------------------------""");
         } else if (!name.matches("[a-zA-Z ]+")) {
             /*
-            * Este Regex verifica se a string possui apenas caracteres de A a Z,
-            * minúsculos ou maiúsculos e espaços, caso tenha algum caractere que não seja o
-            * especificado, ele lança uma exceção.
+             * Este Regex verifica se a string possui apenas caracteres de A a Z,
+             * minúsculos ou maiúsculos e espaços, caso tenha algum caractere que não seja o
+             * especificado, ele lança uma exceção.
              */
             throw new NomeInvalidoException("""
                     -----------------------------------------------------------------------
@@ -33,9 +38,9 @@ public class UserService {
                     -----------------------------------------------------------------------""");
         } else if (name.length() <= 2) {
             throw new NomeInvalidoException("""
-                   -----------------------------------------------------------------------
-                    Erro! O campo Nome não pode conter apenas 1 ou 2 letras.
-                    -----------------------------------------------------------------------""");
+                    -----------------------------------------------------------------------
+                     Erro! O campo Nome não pode conter apenas 1 ou 2 letras.
+                     -----------------------------------------------------------------------""");
         } else {
             return true;
         }
@@ -70,8 +75,8 @@ public class UserService {
                     -----------------------------------------------------------------------""");
         } else if (!cpf.matches("\\d+")) {
             /*
-            * Este regex verifica se cada caractere é numérico
-            * caso tenha algum não numérico, ele lança uma exceção.
+             * Este regex verifica se cada caractere é numérico
+             * caso tenha algum não numérico, ele lança uma exceção.
              */
             throw new CpfInvalidoException("""
                     -----------------------------------------------------------------------
@@ -87,14 +92,22 @@ public class UserService {
         }
     }
 
-    public boolean validarDataNasc(String dataNasc) {
+    public boolean validarDataNasc(String dataNasc, DateTimeFormatter formatter) {
         if (dataNasc.isEmpty()) {
             throw new DataNascInvalidoException("""
                     -----------------------------------------------------------------------
                     Erro! O campo Data de nascimento não pode estar vazio.
                     -----------------------------------------------------------------------""");
         } else {
-            return true;
+            try{
+                LocalDate.parse(dataNasc, formatter);
+                return true;
+            } catch (DateTimeException e){
+                throw new DataNascInvalidoException("""
+                                -----------------------------------------------------------------------
+                                Erro! Formato inválido ou data inexistente
+                                -----------------------------------------------------------------------""");
+            }
         }
     }
 
@@ -112,6 +125,29 @@ public class UserService {
             throw new CelularInvalidoException("""
                     -----------------------------------------------------------------------
                     Erro! O campo número de celular deve ser preenchido apenas com 11 números.
+                    -----------------------------------------------------------------------""");
+        } else {
+            return true;
+        }
+    }
+
+    public boolean validarEmail(String email) {
+        if (email.isEmpty()) {
+            throw new EmailInvalidoException("""
+                    -----------------------------------------------------------------------
+                    Erro! O campo Email não pode estar vazio.
+                    -----------------------------------------------------------------------""");
+        } else if (!email.contains("@")) {
+            //O .contains() verifica se na String fornecida contém o caractere que eu especifiquei.
+            throw new EmailInvalidoException("""
+                    -----------------------------------------------------------------------
+                    Erro! O Email deve conter @.
+                    -----------------------------------------------------------------------""");
+        } else if (!email.endsWith(".com")) {
+            //O .endsWith() verifica se a String termina exatamente com a sequência fornecida.
+            throw new EmailInvalidoException("""
+                    -----------------------------------------------------------------------
+                    Erro! O email deve ter o final ".com".
                     -----------------------------------------------------------------------""");
         } else {
             return true;

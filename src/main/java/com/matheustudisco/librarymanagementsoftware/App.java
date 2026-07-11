@@ -3,6 +3,7 @@ package com.matheustudisco.librarymanagementsoftware;
 import com.matheustudisco.librarymanagementsoftware.exception.CelularInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.CpfInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.DataNascInvalidoException;
+import com.matheustudisco.librarymanagementsoftware.exception.EmailInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.NomeInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.model.User;
@@ -80,6 +81,11 @@ public class App {
                         nameBoolean = userService.validarNome(name);
                     } catch (NomeInvalidoException e) {
                         System.out.println(e.getMessage());
+                    } catch (RuntimeException e) {
+                        System.out.println("""
+                                -----------------------------------------------------------------------
+                                Erro inesperado! Por favor tente novamente.
+                                -----------------------------------------------------------------------""");
                     }
                 }
                 boolean lastnameBoolean = false;
@@ -90,6 +96,11 @@ public class App {
                         lastnameBoolean = userService.validarSobrenome(lastName);
                     } catch (NomeInvalidoException e) {
                         System.out.println(e.getMessage());
+                    } catch (RuntimeException e) {
+                        System.out.println("""
+                                -----------------------------------------------------------------------
+                                Erro inesperado! Por favor tente novamente.
+                                -----------------------------------------------------------------------""");
                     }
                 }
                 /* Criação de uma variável booleana para capturar o retorno
@@ -106,41 +117,57 @@ public class App {
                         cpfBoolean = userService.validarCPF(cpf);
                     } catch (CpfInvalidoException e) {
                         System.out.println(e.getMessage());
+                    } catch (RuntimeException e) {
+                        System.out.println("""
+                                -----------------------------------------------------------------------
+                                Erro inesperado! Por favor tente novamente.
+                                -----------------------------------------------------------------------""");
                     }
                 }
                 boolean dateBirthBoolean = false;
-                while (!dateBirthBoolean) { //OU while (dateBirtBoolean = false)
+                while (!dateBirthBoolean) { //OU while (dateBirtBoolean == false)
                     try {
                         System.out.print("Digite a data de nascimento (DD/MM/AAAA): ");
                         String dateOfBirthString = scanner.nextLine();
-                        dateBirthBoolean = userService.validarDataNasc(dateOfBirthString);
+                        dateBirthBoolean = userService.validarDataNasc(dateOfBirthString, formatter);
                         dateOfBirth = LocalDate.parse(dateOfBirthString, formatter);
                     } catch (DataNascInvalidoException e) {
                         System.out.println(e.getMessage());
-                        dateBirthBoolean = false;
-                    } catch (DateTimeException e) {
+                    } catch (RuntimeException e) {
                         System.out.println("""
                                 -----------------------------------------------------------------------
-                                Erro! Formato inválido ou data inexistente
+                                Erro inesperado! Por favor tente novamente.
                                 -----------------------------------------------------------------------""");
-                        dateBirthBoolean = false;
                     }
                 }
                 boolean cellphoneBoolean = false;
                 while (!cellphoneBoolean) {
                     try {
-                        System.out.print("Digite o numero de celular com prefixo: ");
+                        System.out.print("Digite o número de celular com prefixo: ");
                         cellphone = scanner.nextLine();
                         cellphoneBoolean = userService.validarCelular(cellphone);
                     } catch (CelularInvalidoException e) {
                         System.out.println(e.getMessage());
+                    } catch (RuntimeException e) {
+                        System.out.println("""
+                                -----------------------------------------------------------------------
+                                Erro inesperado! Por favor tente novamente.
+                                -----------------------------------------------------------------------""");
                     }
                 }
-                while (email.isEmpty()) {
-                    System.out.print("Digite o email: ");
-                    email = scanner.nextLine();
-                    if (email.isEmpty()) {
-                        System.out.println("Erro! O campo email não pode estar vazio.");
+                boolean emailBoolean = false;
+                while (!emailBoolean) {
+                    try {
+                        System.out.print("Digite o email: ");
+                        email = scanner.nextLine();
+                        emailBoolean = userService.validarEmail(email);
+                    } catch (EmailInvalidoException e){
+                        System.out.println(e.getMessage());
+                    } catch (RuntimeException e) {
+                        System.out.println("""
+                                -----------------------------------------------------------------------
+                                Erro inesperado! Por favor tente novamente.
+                                -----------------------------------------------------------------------""");
                     }
                 }
 
