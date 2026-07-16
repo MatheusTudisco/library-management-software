@@ -26,10 +26,10 @@ public class UserService {
                     -----------------------------------------------------------------------
                     Erro! O campo Nome não pode estar vazio.
                     -----------------------------------------------------------------------""");
-        } else if (!name.matches("[a-zA-Z ]+")) {
+        } else if (!name.matches("^[a-zA-Z]+$")) {
             /*
              * Este Regex verifica se a string possui apenas caracteres de A a Z,
-             * minúsculos ou maiúsculos e espaços, caso tenha algum caractere que não seja o
+             * minúsculos ou maiúsculos, caso tenha algum caractere que não seja o
              * especificado, ele lança uma exceção.
              */
             throw new NomeInvalidoException("""

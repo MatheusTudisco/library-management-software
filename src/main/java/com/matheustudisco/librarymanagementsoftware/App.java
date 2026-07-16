@@ -1,10 +1,6 @@
 package com.matheustudisco.librarymanagementsoftware;
 
-import com.matheustudisco.librarymanagementsoftware.exception.CelularInvalidoException;
-import com.matheustudisco.librarymanagementsoftware.exception.CpfInvalidoException;
-import com.matheustudisco.librarymanagementsoftware.exception.DataNascInvalidoException;
-import com.matheustudisco.librarymanagementsoftware.exception.EmailInvalidoException;
-import com.matheustudisco.librarymanagementsoftware.exception.NomeInvalidoException;
+import com.matheustudisco.librarymanagementsoftware.exception.*;
 import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.model.User;
 import com.matheustudisco.librarymanagementsoftware.repository.BookRepository;
@@ -184,18 +180,34 @@ public class App {
                 System.out.println("                   CADASTRO DE LIVRO");
                 System.out.println("---------------------------------------------------------");
 
-                while (title.isEmpty()) {
-                    System.out.print("Digite o nome do livro: ");
-                    title = scanner.nextLine();
-                    if (title.isEmpty()) {
-                        System.out.println("Erro! O campo titulo não pode estar vazio.");
+                boolean titleBoolean = false;
+                while (!titleBoolean){
+                    try{
+                        System.out.print("Digite o título: ");
+                        title = scanner.nextLine().trim();
+                        titleBoolean = bookService.validarTitulo(title);
+                    } catch (TituloInvalidoException e ){
+                        System.out.println(e.getMessage());
+                    } catch (RuntimeException e ){
+                        System.out.println("""
+                                -----------------------------------------------------------------------
+                                Erro inesperado! Por favor tente novamente.
+                                -----------------------------------------------------------------------""");
                     }
                 }
-                while (author.isEmpty()) {
-                    System.out.print("Digite o autor: ");
-                    author = scanner.nextLine();
-                    if (author.isEmpty()) {
-                        System.out.println("Erro! O campo autor não pode estar vazio.");
+                boolean authorBoolean = false;
+                while(!authorBoolean){
+                    try {
+                        System.out.print("Digite o autor: ");
+                        author = scanner.nextLine().trim();
+                        authorBoolean = bookService.validarAutor(author);
+                    } catch (AutorInvalidoException e){
+                        System.out.println(e.getMessage());
+                    } catch (RuntimeException e ){
+                        System.out.println("""
+                                -----------------------------------------------------------------------
+                                Erro inesperado! Por favor tente novamente.
+                                -----------------------------------------------------------------------""");
                     }
                 }
                 while (genre.isEmpty()) {
