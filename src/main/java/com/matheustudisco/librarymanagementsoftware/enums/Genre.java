@@ -22,5 +22,14 @@ public enum Genre {
     TECNOLOGIA_E_COMPUTACAO("Tecnologia e Computação"),
     CIENCIAS_EXATAS("Ciências Exatas"),
     RELIGIAO_E_ESPIRITUALIDADE("Religião e Espiritualidade"),
-    ARTE_E_DESIGN("Arte e Design")
+    ARTE_E_DESIGN("Arte e Design");
+
+    private final String descricao;
+
+    Genre(String descricao) {
+        this.descricao = descricao;
+    }
+    public String getDescricao() {
+        return descricao;
+    }
 }

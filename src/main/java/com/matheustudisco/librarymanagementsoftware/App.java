@@ -157,7 +157,7 @@ public class App {
                         System.out.print("Digite o email: ");
                         email = scanner.nextLine();
                         emailBoolean = userService.validarEmail(email);
-                    } catch (EmailInvalidoException e){
+                    } catch (EmailInvalidoException e) {
                         System.out.println(e.getMessage());
                     } catch (RuntimeException e) {
                         System.out.println("""
@@ -172,8 +172,8 @@ public class App {
 
             } else if (escolha == 2) {
                 String title = "", author = "", genre = "", yearString = "", volumeString = "", quantityString = "";
-                int year = 0;
-                byte volume = 0;
+                short year = 0;
+                short volume = 0;
                 short quantity = 0;
 
                 System.out.println("---------------------------------------------------------");
@@ -181,14 +181,14 @@ public class App {
                 System.out.println("---------------------------------------------------------");
 
                 boolean titleBoolean = false;
-                while (!titleBoolean){
-                    try{
+                while (!titleBoolean) {
+                    try {
                         System.out.print("Digite o título: ");
                         title = scanner.nextLine().trim();
                         titleBoolean = bookService.validarTitulo(title);
-                    } catch (TituloInvalidoException e ){
+                    } catch (TituloInvalidoException e) {
                         System.out.println(e.getMessage());
-                    } catch (RuntimeException e ){
+                    } catch (RuntimeException e) {
                         System.out.println("""
                                 -----------------------------------------------------------------------
                                 Erro inesperado! Por favor tente novamente.
@@ -196,14 +196,14 @@ public class App {
                     }
                 }
                 boolean authorBoolean = false;
-                while(!authorBoolean){
+                while (!authorBoolean) {
                     try {
                         System.out.print("Digite o autor: ");
                         author = scanner.nextLine().trim();
                         authorBoolean = bookService.validarAutor(author);
-                    } catch (AutorInvalidoException e){
+                    } catch (AutorInvalidoException e) {
                         System.out.println(e.getMessage());
-                    } catch (RuntimeException e ){
+                    } catch (RuntimeException e) {
                         System.out.println("""
                                 -----------------------------------------------------------------------
                                 Erro inesperado! Por favor tente novamente.
@@ -217,32 +217,52 @@ public class App {
                         System.out.println("Erro! O campo genêro não pode estar vazio.");
                     }
                 }
-                while (yearString.isEmpty()) {
-                    System.out.print("Digite o ano do livro: ");
-                    yearString = scanner.nextLine();
-                    if (yearString.isEmpty()) {
-                        System.out.println("Erro! O campo ano não pode estar vazio.");
-                    } else {
-                        year = Integer.parseInt(yearString);
+                boolean yearBoolean = false;
+                while (!yearBoolean) {
+                    try {
+                        System.out.print("Digite o ano do livro: ");
+                        yearString = scanner.nextLine().trim();
+                        yearBoolean = bookService.validarAno(yearString);
+                        year = Short.parseShort(yearString);
+                    } catch (AnoInvalidoException e) {
+                        System.out.println(e.getMessage());
+                    } catch (RuntimeException e) {
+                        System.out.println("""
+                                -----------------------------------------------------------------------
+                                Erro inesperado! Por favor tente novamente.
+                                -----------------------------------------------------------------------""");
                     }
                 }
-                while (volumeString.isEmpty()) {
-                    System.out.print("Digite o volume do livro: ");
-                    volumeString = scanner.nextLine();
-                    if (volumeString.isEmpty()) {
-                        System.out.println("Erro! O campo volume não pode estar vazio.");
-                    } else {
-                        volume = Byte.parseByte(volumeString);
+                boolean volumeBoolean = false;
+                while (!volumeBoolean) {
+                    try {
+                        System.out.print("Digite o volume do livro: ");
+                        volumeString = scanner.nextLine().trim();
+                        volumeBoolean = bookService.validarVolume(volumeString);
+                        volume = Short.parseShort(volumeString);
+                    } catch (VolumeInvalidoException e) {
+                        System.out.println(e.getMessage());
+                    } catch (RuntimeException e) {
+                        System.out.println("""
+                                -----------------------------------------------------------------------
+                                Erro inesperado! Por favor tente novamente.
+                                -----------------------------------------------------------------------""");
                     }
                 }
-                while (quantityString.isEmpty()) {
-                    System.out.print("Digite a quantidade disponivel: ");
-                    quantityString = scanner.nextLine();
-                    if (quantityString.isEmpty()) {
-                        System.out.println("Erro! O campo quantidade não pode estar vazio.");
-                    } else {
-                        ;
-                        quantity = Short.parseShort(quantityString);
+                boolean quantityBoolean = false;
+                while (!quantityBoolean) {
+                    try {
+                        System.out.print("Digite a quantidade do livro em estoque: ");
+                        quantityString = scanner.nextLine().trim();
+                        quantity = bookService.validarQuantidade(quantityString);
+                        quantityBoolean = true;
+                    } catch (QuantidadeInvalidaException e) {
+                        System.out.println(e.getMessage());
+                    } catch (RuntimeException e) {
+                        System.out.println("""
+                                -----------------------------------------------------------------------
+                                Erro inesperado! Por favor tente novamente.
+                                -----------------------------------------------------------------------""");
                     }
                 }
                 Book newBook = new Book(title, author, genre, year, volume, quantity);

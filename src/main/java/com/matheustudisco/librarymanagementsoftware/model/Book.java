@@ -4,11 +4,11 @@ public class Book {
     private String title;
     private String author;
     private String genre;
-    private int year;
-    private byte volume;
+    private short year;
+    private short volume;
     private short quantity;
 
-    public Book(String title, String author, String genre, int year, byte volume, short quantity) {
+    public Book(String title, String author, String genre, short year, short volume, short quantity) {
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -45,11 +45,11 @@ public class Book {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(short year) {
         this.year = year;
     }
 
-    public byte getVolume() {
+    public short getVolume() {
         return volume;
     }
 
