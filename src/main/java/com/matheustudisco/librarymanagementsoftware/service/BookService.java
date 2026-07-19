@@ -5,6 +5,7 @@ import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.repository.BookRepository;
 
 import java.text.AttributedCharacterIterator;
+import java.util.List;
 
 public class BookService {
     private final BookRepository bookRepository;
@@ -66,7 +67,7 @@ public class BookService {
         }
     }
 
-    public boolean validarAno(String anoString) {
+    public short validarAno(String anoString) {
         if (anoString.isEmpty()) {
             throw new AnoInvalidoException("""
                     -----------------------------------------------------------------------
@@ -74,8 +75,7 @@ public class BookService {
                     -----------------------------------------------------------------------""");
         } else {
             try {
-                Short.parseShort(anoString);
-                return true;
+                return Short.parseShort(anoString);
             } catch (NumberFormatException e) {
                 throw new AnoInvalidoException("""
                         -----------------------------------------------------------------------
@@ -85,7 +85,7 @@ public class BookService {
         }
     }
 
-    public boolean validarVolume(String volumeString) {
+    public short validarVolume(String volumeString) {
         if (volumeString.isEmpty()) {
             throw new VolumeInvalidoException("""
                     -----------------------------------------------------------------------
@@ -98,8 +98,7 @@ public class BookService {
                     -----------------------------------------------------------------------""");
         } else {
             try {
-                Short.parseShort(volumeString);
-                return true;
+                return Short.parseShort(volumeString);
             } catch (NumberFormatException e) {
                 throw new VolumeInvalidoException("""
                         -----------------------------------------------------------------------
@@ -141,5 +140,9 @@ public class BookService {
     public void registrationBook(Book newBook) {
         bookRepository.saveBook(newBook);
         System.out.println("Sucesso! O livro " + newBook.getTitle() + " foi cadastrado com sucesso");
+    }
+
+    public List<Book> showBook (){
+        return bookRepository.showBook();
     }
 }

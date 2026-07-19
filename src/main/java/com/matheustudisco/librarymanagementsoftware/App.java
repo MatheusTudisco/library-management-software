@@ -5,7 +5,9 @@ import com.matheustudisco.librarymanagementsoftware.exception.*;
 import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.model.User;
 import com.matheustudisco.librarymanagementsoftware.repository.BookRepository;
+import com.matheustudisco.librarymanagementsoftware.repository.BookRepositoryList;
 import com.matheustudisco.librarymanagementsoftware.repository.UserRepository;
+import com.matheustudisco.librarymanagementsoftware.repository.UserRepositoryList;
 import com.matheustudisco.librarymanagementsoftware.service.BookService;
 import com.matheustudisco.librarymanagementsoftware.service.UserService;
 
@@ -19,16 +21,12 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-        UserRepository userRepository = new UserRepository();
-        UserService userService = new UserService(userRepository);
-
-        BookRepository bookRepository = new BookRepository();
-        BookService bookService = new BookService(bookRepository);
+        //Instanciação das classes services com os repositórios que serão utilizados.
+        UserService userService = new UserService(new UserRepositoryList());
+        BookService bookService = new BookService(new BookRepositoryList());
 
         Scanner scanner = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        List<User> user = new ArrayList<>();
-        List<Book> book = new ArrayList<>();
         List<Genre> genreList = new ArrayList<>(List.of(Genre.values()));
 
         boolean selecaoWhile = false;
@@ -248,8 +246,8 @@ public class App {
                     try {
                         System.out.print("Digite o ano do livro: ");
                         yearString = scanner.nextLine().trim();
-                        yearBoolean = bookService.validarAno(yearString);
-                        year = Short.parseShort(yearString);
+                        year = bookService.validarAno(yearString);
+                        yearBoolean = true;
                     } catch (AnoInvalidoException e) {
                         System.out.println(e.getMessage());
                     } catch (RuntimeException e) {
@@ -264,8 +262,8 @@ public class App {
                     try {
                         System.out.print("Digite o volume do livro: ");
                         volumeString = scanner.nextLine().trim();
-                        volumeBoolean = bookService.validarVolume(volumeString);
-                        volume = Short.parseShort(volumeString);
+                        volume = bookService.validarVolume(volumeString);
+                        volumeBoolean = true;
                     } catch (VolumeInvalidoException e) {
                         System.out.println(e.getMessage());
                     } catch (RuntimeException e) {
@@ -300,7 +298,7 @@ public class App {
                     System.out.println();
                 }
 
-                System.out.println(userRepository.showUser());
+                System.out.println(userService.showService());
 
                 System.out.println("Digite 1 para encerrar");
                 System.out.println("Digite 2 para voltar ao menu principal");
@@ -322,7 +320,7 @@ public class App {
                 for (int i = 0; i <= 50; i++) {
                     System.out.println();
                 }
-                System.out.println(bookRepository.showBook());
+                System.out.println(bookService.showBook());
 
                 System.out.println("Digite 1 para encerrar");
                 System.out.println("Digite 2 para voltar ao menu principal");

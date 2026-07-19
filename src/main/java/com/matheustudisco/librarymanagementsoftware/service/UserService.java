@@ -11,6 +11,7 @@ import com.matheustudisco.librarymanagementsoftware.repository.UserRepository;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class UserService {
 
@@ -157,5 +158,9 @@ public class UserService {
     public void registrationService(User newUser) {
         userRepository.saveUser(newUser);
         System.out.println("Usuário: " + newUser.getName() + " cadastrado com sucesso!");
+    }
+
+    public List<User> showService(){
+        return userRepository.showUser();
     }
 }
