@@ -1,14 +1,16 @@
 package com.matheustudisco.librarymanagementsoftware.model;
 
+import com.matheustudisco.librarymanagementsoftware.enums.Genre;
+
 public class Book {
     private String title;
     private String author;
-    private String genre;
+    private Genre genre;
     private short year;
     private short volume;
     private short quantity;
 
-    public Book(String title, String author, String genre, short year, short volume, short quantity) {
+    public Book(String title, String author, Genre genre, short year, short volume, short quantity) {
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -33,11 +35,11 @@ public class Book {
         this.author = author;
     }
 
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 
@@ -70,7 +72,7 @@ public class Book {
         return "Livros cadastrados: \n" +
                 "Title: " + title + "\n" +
                 "Author " + author + "\n" +
-                "Genre: " + genre + "\n" +
+                "Genre: " + genre.getDescricao() + "\n" +
                 "Year: " + year + "\n" +
                 "Volume: " + volume + "\n" +
                 "Quantity: " + quantity + "\n\n";

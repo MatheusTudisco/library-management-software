@@ -40,6 +40,32 @@ public class BookService {
         }
     }
 
+    public byte validarGenero(String generoString, int tamanhoGenre) {
+        if (generoString.isEmpty()) {
+            throw new GeneroInvalidoException("""
+                    -----------------------------------------------------------------------
+                    Erro! O campo Gênero não pode estar vazio.
+                    -----------------------------------------------------------------------""");
+        }
+        try {
+            //Esta variável é para uso da regra de escolha igual 0 ou maior que as escolhas.
+            byte generoByte = Byte.parseByte(generoString);
+            if (generoByte > tamanhoGenre || generoByte <= 0) {
+                throw new GeneroInvalidoException("""
+                        -----------------------------------------------------------------------
+                        Erro! Escolha inexistente.
+                        -----------------------------------------------------------------------""");
+            } else {
+                return generoByte;
+            }
+        } catch (NumberFormatException e) {
+            throw new GeneroInvalidoException("""
+                    -----------------------------------------------------------------------
+                    Erro! O campo Gênero somente aceita as escolhas citadas.
+                    -----------------------------------------------------------------------""");
+        }
+    }
+
     public boolean validarAno(String anoString) {
         if (anoString.isEmpty()) {
             throw new AnoInvalidoException("""

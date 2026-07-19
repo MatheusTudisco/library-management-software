@@ -1,5 +1,6 @@
 package com.matheustudisco.librarymanagementsoftware;
 
+import com.matheustudisco.librarymanagementsoftware.enums.Genre;
 import com.matheustudisco.librarymanagementsoftware.exception.*;
 import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.model.User;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class App {
@@ -27,6 +29,7 @@ public class App {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         List<User> user = new ArrayList<>();
         List<Book> book = new ArrayList<>();
+        List<Genre> genreList = new ArrayList<>(List.of(Genre.values()));
 
         boolean selecaoWhile = false;
         System.out.println("""
@@ -171,7 +174,8 @@ public class App {
                 userService.registrationService(newUser);
 
             } else if (escolha == 2) {
-                String title = "", author = "", genre = "", yearString = "", volumeString = "", quantityString = "";
+                String title = "", author = "", genreString = "", yearString = "", volumeString = "", quantityString = "";
+                Genre genre = null;
                 short year = 0;
                 short volume = 0;
                 short quantity = 0;
@@ -210,11 +214,33 @@ public class App {
                                 -----------------------------------------------------------------------""");
                     }
                 }
-                while (genre.isEmpty()) {
-                    System.out.print("Digite o genero do livro: ");
-                    genre = scanner.nextLine();
-                    if (genre.isEmpty()) {
-                        System.out.println("Erro! O campo genêro não pode estar vazio.");
+                for (int i = 0; i <= 50; i++) {
+                    System.out.println();
+                }
+                boolean genreBoolean = false;
+                while (!genreBoolean) {
+                    try {
+                        System.out.println("Escolha um gênero da lista abaixo:");
+                        for (int i = 0; i < genreList.size(); i++) {
+                            System.out.println(i + 1 + " - " + genreList.get(i).getDescricao());
+                        }
+                        System.out.print("Escolha de 1 até " + genreList.size() + ": ");
+                        genreString = scanner.nextLine().trim();
+                        byte escolhaGenre = bookService.validarGenero(genreString, genreList.size());
+                        System.out.println("""
+                                -------------------------------------------------
+                                Gênero escolhido: %s.
+                                -------------------------------------------------
+                                """.formatted(genreList.get(escolhaGenre - 1).getDescricao()));
+                        genre = genreList.get(escolhaGenre - 1);
+                        genreBoolean = true;
+                    } catch (GeneroInvalidoException e) {
+                        System.out.println(e.getMessage());
+                    } catch (RuntimeException e) {
+                        System.out.println("""
+                                -----------------------------------------------------------------------
+                                Erro inesperado! Por favor tente novamente.
+                                -----------------------------------------------------------------------""");
                     }
                 }
                 boolean yearBoolean = false;
@@ -331,6 +357,6 @@ public class App {
             }
         }
 
-
     }
 }
+
