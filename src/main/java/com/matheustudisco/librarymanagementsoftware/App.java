@@ -1,22 +1,20 @@
 package com.matheustudisco.librarymanagementsoftware;
 
-import com.matheustudisco.librarymanagementsoftware.enums.Genre;
+import com.matheustudisco.librarymanagementsoftware.model.Genre;
 import com.matheustudisco.librarymanagementsoftware.exception.*;
 import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.model.User;
-import com.matheustudisco.librarymanagementsoftware.repository.BookRepository;
 import com.matheustudisco.librarymanagementsoftware.repository.BookRepositoryList;
-import com.matheustudisco.librarymanagementsoftware.repository.UserRepository;
+import com.matheustudisco.librarymanagementsoftware.repository.GenreRepositoryPostgre;
 import com.matheustudisco.librarymanagementsoftware.repository.UserRepositoryList;
 import com.matheustudisco.librarymanagementsoftware.service.BookService;
+import com.matheustudisco.librarymanagementsoftware.service.GenreService;
 import com.matheustudisco.librarymanagementsoftware.service.UserService;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class App {
@@ -24,10 +22,11 @@ public class App {
         //Instanciação das classes services com os repositórios que serão utilizados.
         UserService userService = new UserService(new UserRepositoryList());
         BookService bookService = new BookService(new BookRepositoryList());
+        GenreService genreService = new GenreService(new GenreRepositoryPostgre());
 
         Scanner scanner = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        List<Genre> genreList = new ArrayList<>(List.of(Genre.values()));
+        List<Genre> genreList = new ArrayList<>(genreService.showGenres());
 
         boolean selecaoWhile = false;
         System.out.println("""
@@ -173,7 +172,7 @@ public class App {
 
             } else if (escolha == 2) {
                 String title = "", author = "", genreString = "", yearString = "", volumeString = "", quantityString = "";
-                String genre = "";
+                Long genre = 0L;
                 short year = 0;
                 short volume = 0;
                 short quantity = 0;
@@ -215,24 +214,17 @@ public class App {
                 for (int i = 0; i <= 50; i++) {
                     System.out.println();
                 }
-                System.out.print("Digite o Genero: ");
-                genre = scanner.nextLine().trim();
-               /* boolean genreBoolean = false;
+
+                boolean genreBoolean = false;
                 while (!genreBoolean) {
                     try {
-                        System.out.println("Escolha um gênero da lista abaixo:");
+                        System.out.println("-----Lista de Gêneros-----");
                         for (int i = 0; i < genreList.size(); i++) {
-                            System.out.println(i + 1 + " - " + genreList.get(i).getDescricao());
+                            System.out.println(genreList.get(i));
                         }
-                        System.out.print("Escolha de 1 até " + genreList.size() + ": ");
+                        System.out.print("Escolha um número do gênero da lista acima: ");
                         genreString = scanner.nextLine().trim();
-                        byte escolhaGenre = bookService.validarGenero(genreString, genreList.size());
-                        System.out.println("""
-                                -------------------------------------------------
-                                Gênero escolhido: %s.
-                                -------------------------------------------------
-                                """.formatted(genreList.get(escolhaGenre - 1).getDescricao()));
-                        genre = genreList.get(escolhaGenre - 1);
+                        genre = genreService.validarGenero(genreString, genreList);
                         genreBoolean = true;
                     } catch (GeneroInvalidoException e) {
                         System.out.println(e.getMessage());
@@ -242,7 +234,7 @@ public class App {
                                 Erro inesperado! Por favor tente novamente.
                                 -----------------------------------------------------------------------""");
                     }
-                }*/
+                }
                 boolean yearBoolean = false;
                 while (!yearBoolean) {
                     try {
