@@ -173,7 +173,7 @@ public class App {
 
             } else if (escolha == 2) {
                 String title = "", author = "", genreString = "", yearString = "", volumeString = "", quantityString = "";
-                Genre genre = null;
+                String genre = "";
                 short year = 0;
                 short volume = 0;
                 short quantity = 0;
@@ -215,7 +215,9 @@ public class App {
                 for (int i = 0; i <= 50; i++) {
                     System.out.println();
                 }
-                boolean genreBoolean = false;
+                System.out.print("Digite o Genero: ");
+                genre = scanner.nextLine().trim();
+               /* boolean genreBoolean = false;
                 while (!genreBoolean) {
                     try {
                         System.out.println("Escolha um gênero da lista abaixo:");
@@ -240,7 +242,7 @@ public class App {
                                 Erro inesperado! Por favor tente novamente.
                                 -----------------------------------------------------------------------""");
                     }
-                }
+                }*/
                 boolean yearBoolean = false;
                 while (!yearBoolean) {
                     try {

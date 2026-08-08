@@ -5,12 +5,12 @@ import com.matheustudisco.librarymanagementsoftware.enums.Genre;
 public class Book {
     private String title;
     private String author;
-    private Genre genre;
+    private String genre;
     private short year;
     private short volume;
     private short quantity;
 
-    public Book(String title, String author, Genre genre, short year, short volume, short quantity) {
+    public Book(String title, String author, String genre, short year, short volume, short quantity) {
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -35,11 +35,11 @@ public class Book {
         this.author = author;
     }
 
-    public Genre getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 
@@ -72,7 +72,7 @@ public class Book {
         return "Livros cadastrados: \n" +
                 "Title: " + title + "\n" +
                 "Author " + author + "\n" +
-                "Genre: " + genre.getDescricao() + "\n" +
+                "Genre: " + genre + "\n" +
                 "Year: " + year + "\n" +
                 "Volume: " + volume + "\n" +
                 "Quantity: " + quantity + "\n\n";
