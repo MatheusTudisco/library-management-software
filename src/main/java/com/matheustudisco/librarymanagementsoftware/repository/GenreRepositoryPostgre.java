@@ -1,5 +1,6 @@
 package com.matheustudisco.librarymanagementsoftware.repository;
 
+import com.matheustudisco.librarymanagementsoftware.exception.GeneroInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.model.Genre;
 
 import java.sql.Connection;
@@ -13,7 +14,7 @@ import java.util.List;
 public class GenreRepositoryPostgre implements GenreRepository {
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USUARIO = "postgres";
-    private static final String SENHA = "sua_senha_aqui";
+    private static final String SENHA = System.getenv("DB_PASSWORD");
 
     public List<Genre> buscarGenero() {
         //Lista criada como variável local para não ter duplicidade de dados.
@@ -30,7 +31,7 @@ public class GenreRepositoryPostgre implements GenreRepository {
                 genreList.add(genero);
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar os gêneros" + e.getMessage());
+            throw new RuntimeException("Erro ao conectar ou executar o banco de dados.");
         }
         return genreList;
     }

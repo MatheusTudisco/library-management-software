@@ -4,6 +4,7 @@ import com.matheustudisco.librarymanagementsoftware.exception.GeneroInvalidoExce
 import com.matheustudisco.librarymanagementsoftware.model.Genre;
 import com.matheustudisco.librarymanagementsoftware.repository.GenreRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GenreService {
@@ -14,6 +15,10 @@ public class GenreService {
     }
 
     public Long validarGenero(String generoString, List<Genre> genreList) {
+        if (genreList == null || genreList.isEmpty()) {
+            throw new GeneroInvalidoException("Nenhum gênero disponível para seleção");
+        }
+
         if (generoString.isEmpty()) {
             throw new GeneroInvalidoException("""
                     -----------------------------------------------------------------------
@@ -42,6 +47,20 @@ public class GenreService {
     }
 
     public List<Genre> showGenres() {
-        return genreRepository.buscarGenero();
+        try {
+            List<Genre> generos = genreRepository.buscarGenero();
+            if (generos.isEmpty()) {
+                throw new GeneroInvalidoException("""
+                        -----------------------------------------------------------------------
+                        Erro! Nenhum gênero cadastrado no banco.
+                        -----------------------------------------------------------------------""");
+            }
+            return generos;
+        } catch (RuntimeException e) {
+            throw new GeneroInvalidoException("""
+                    -----------------------------------------------------------------------
+                    Erro! Não foi possível carregar os gêneros cadastrados no banco.
+                    -----------------------------------------------------------------------""");
+        }
     }
 }

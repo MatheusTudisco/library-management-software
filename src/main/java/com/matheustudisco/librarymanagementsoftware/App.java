@@ -23,10 +23,10 @@ public class App {
         UserService userService = new UserService(new UserRepositoryList());
         BookService bookService = new BookService(new BookRepositoryList());
         GenreService genreService = new GenreService(new GenreRepositoryPostgre());
+        List<Genre> genreList = new ArrayList<>();
 
         Scanner scanner = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        List<Genre> genreList = new ArrayList<>(genreService.showGenres());
 
         boolean selecaoWhile = false;
         System.out.println("""
@@ -34,6 +34,12 @@ public class App {
                         BEM VINDO AO LBM""");
 
         while (!selecaoWhile) {
+            try {
+                genreList = genreService.showGenres();
+            } catch (GeneroInvalidoException e){
+                System.out.println(e.getMessage());
+                break;
+            }
             int escolha;
             System.out.println("""
                     =====================================
