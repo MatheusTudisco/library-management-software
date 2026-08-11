@@ -5,6 +5,7 @@ import com.matheustudisco.librarymanagementsoftware.controller.UserControllerCli
 import com.matheustudisco.librarymanagementsoftware.repository.BookRepositoryList;
 import com.matheustudisco.librarymanagementsoftware.repository.GenreRepositoryPostgre;
 import com.matheustudisco.librarymanagementsoftware.repository.UserRepositoryList;
+import com.matheustudisco.librarymanagementsoftware.repository.UserRepositoryPostgre;
 import com.matheustudisco.librarymanagementsoftware.service.BookService;
 import com.matheustudisco.librarymanagementsoftware.service.GenreService;
 import com.matheustudisco.librarymanagementsoftware.service.UserService;
@@ -15,7 +16,7 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) {
         //Instanciação das classes services com os repositórios que serão utilizados.
-        UserService userService = new UserService(new UserRepositoryList());
+        UserService userService = new UserService(new UserRepositoryPostgre());
         BookService bookService = new BookService(new BookRepositoryList());
         GenreService genreService = new GenreService(new GenreRepositoryPostgre());
         Scanner scanner = new Scanner(System.in);
