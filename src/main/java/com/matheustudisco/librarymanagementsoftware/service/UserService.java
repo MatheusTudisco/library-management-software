@@ -155,12 +155,16 @@ public class UserService {
         }
     }
 
-    public void registrationService(User newUser) {
+    public void registrationUser(String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email) {
+        User newUser = new User(name, lastName, cpf, dateOfBirth, cellphone, email);
         userRepository.saveUser(newUser);
         System.out.println("Usuário: " + newUser.getName() + " cadastrado com sucesso!");
     }
 
-    public List<User> showService(){
+    public List<User> showUser(){
+        for (int i = 0; i <= 50; i++) {
+            System.out.println();
+        }
         return userRepository.showUser();
     }
 }

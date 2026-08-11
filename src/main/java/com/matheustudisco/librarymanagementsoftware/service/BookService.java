@@ -111,12 +111,16 @@ public class BookService {
         }
     }
 
-    public void registrationBook(Book newBook) {
+    public void registrationBook(String title, String author, Long genre, Short year, Short volume, Short quantity) {
+        Book newBook = new Book(title, author, genre, year, volume, quantity);
         bookRepository.saveBook(newBook);
         System.out.println("Sucesso! O livro " + newBook.getTitle() + " foi cadastrado com sucesso");
     }
 
     public List<Book> showBook (){
+        for (int i = 0; i <= 50; i++) {
+            System.out.println();
+        }
         return bookRepository.showBook();
     }
 }
