@@ -6,6 +6,7 @@ import com.matheustudisco.librarymanagementsoftware.exception.GeneroInvalidoExce
 import com.matheustudisco.librarymanagementsoftware.exception.QuantidadeInvalidaException;
 import com.matheustudisco.librarymanagementsoftware.exception.TituloInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.VolumeInvalidoException;
+import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.model.Genre;
 import com.matheustudisco.librarymanagementsoftware.service.BookService;
 import com.matheustudisco.librarymanagementsoftware.service.GenreService;
@@ -142,5 +143,21 @@ public class BookControllerCli {
         } catch (GeneroInvalidoException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void searchBooks(){
+        String formato = "| %-4d | %-50s | %-50s | %-50s | %-5d | %-7d | %-11d |%n";
+        String divisor = "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+        System.out.println(divisor);
+        System.out.printf("| %-4s | %-50s | %-50s | %-50s | %-5s | %-7s | %-11s |%n", "ID", "TITULO", "AUTOR","GENERO", "ANO", "VOLUME", "QUANTIDADE");
+        System.out.print(divisor);
+
+        for (Book bookList : bookService.showBook()){
+            System.out.printf(formato, bookList.getId(), bookList.getTitle(), bookList.getAuthor(),
+            bookList.getGenre_name(), bookList.getYear(), bookList.getVolume(), bookList.getQuantity());
+            System.out.printf(divisor);
+            System.out.println();
+        }
+        System.out.println();
     }
 }

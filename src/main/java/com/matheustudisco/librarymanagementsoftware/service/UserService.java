@@ -27,7 +27,7 @@ public class UserService {
                     -----------------------------------------------------------------------
                     Erro! O campo Nome não pode estar vazio.
                     -----------------------------------------------------------------------""");
-        } else if (!name.matches("^[a-zA-Z]+$")) {
+        } else if (!name.matches("^[\\p{L}]{2,150}$")) {
             /*
              * Este Regex verifica se a string possui apenas caracteres de A a Z,
              * minúsculos ou maiúsculos, caso tenha algum caractere que não seja o
@@ -53,7 +53,7 @@ public class UserService {
                     -----------------------------------------------------------------------
                     Erro! O campo Sobrenome não pode estar vazio.
                     -----------------------------------------------------------------------""");
-        } else if (!lastName.matches("[a-zA-Z ]+")) {
+        } else if (!lastName.matches("^[\\p{L}]{4,150}$")) {
             throw new NomeInvalidoException("""
                     -----------------------------------------------------------------------
                     Erro! O campo Sobrenome deve ser preenchido apenas com letras.

@@ -141,17 +141,20 @@ public class UserControllerCli {
         * O 4 Largura Minima: reserva 4 caracteres de espaço;
         * O s Tipo de dado: 's' para String.
          */
-        String formato = "%-4d | %-30s | %-14s | %-18s | %-15s | %-30s%n";
-        System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-4s | %-30s | %-14s | %-18s | %-15s | %-30s%n", "ID", "NOME", "CPF", "DATA DE NASCIMENTO", "CELULAR", "EMAIL");
-        System.out.print("--------------------------------------------------------------------------------------------------------------------------------");
+        String formato = "| %-4d | %-30s | %-14s | %-18s | %-15s | %-30s |%n";
+        String divisor = "----------------------------------------------------------------------------------------------------------------------------------";
+        System.out.println(divisor);
+        System.out.printf("| %-4s | %-30s | %-14s | %-18s | %-15s | %-30s |%n", "ID", "NOME", "CPF", "DATA DE NASCIMENTO", "CELULAR", "EMAIL");
+        System.out.print(divisor);
 
         for (User userList : userService.showUser()){
             String dataFormatada = userList.getDateOfBirth().format(formatter);
             String nome = userList.getName() + " " + userList.getLastName();
             System.out.printf(formato, userList.getId(), nome, userList.getCpf(),
             dataFormatada, userList.getCellphone(), userList.getEmail());
-            System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
+            System.out.printf(divisor);
+            System.out.println();
         }
+        System.out.println();
     }
 }

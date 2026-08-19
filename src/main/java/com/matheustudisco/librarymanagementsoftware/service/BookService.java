@@ -26,15 +26,16 @@ public class BookService {
     }
 
     public boolean validarAutor(String author) {
+        String regexAutores = "^[\\p{L} .,&-]{2,150}$";
         if (author.isEmpty()) {
             throw new AutorInvalidoException("""
                     -----------------------------------------------------------------------
                     Erro! O campo Autor não pode estar vazio.
                     -----------------------------------------------------------------------""");
-        } else if (!author.matches("^[A-Za-z]+(\\s[A-Za-z]+)*$")) {
+        } else if (!author.matches(regexAutores)) {
             throw new AutorInvalidoException("""
                     -----------------------------------------------------------------------
-                    Erro! O campo autor somente deve conter letras e espaço.
+                    Erro! O campo autor somente deve conter letras, espaço, virgulas e &.
                     -----------------------------------------------------------------------""");
         } else {
             return true;
@@ -118,9 +119,7 @@ public class BookService {
     }
 
     public List<Book> showBook (){
-        for (int i = 0; i <= 50; i++) {
-            System.out.println();
-        }
+        System.out.println();
         return bookRepository.showBook();
     }
 }

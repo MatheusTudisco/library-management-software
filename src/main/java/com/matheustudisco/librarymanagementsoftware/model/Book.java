@@ -2,9 +2,11 @@ package com.matheustudisco.librarymanagementsoftware.model;
 
 
 public class Book {
+    private Long id;
     private String title;
     private String author;
     private Long genre;
+    private String genre_name;
     private short year;
     private short volume;
     private short quantity;
@@ -16,6 +18,24 @@ public class Book {
         this.year = year;
         this.volume = volume;
         this.quantity = quantity;
+    }
+
+    public Book(Long id, String title, String author, String genre_name, short year, short volume, short quantity) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.genre_name = genre_name;
+        this.year = year;
+        this.volume = volume;
+        this.quantity = quantity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getGenre_name() {
+        return genre_name;
     }
 
     public String getTitle() {
@@ -42,7 +62,8 @@ public class Book {
         this.genre = genre;
     }
 
-    public int getYear() {
+
+    public short getYear() {
         return year;
     }
 

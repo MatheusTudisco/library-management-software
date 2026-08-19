@@ -5,6 +5,7 @@ import com.matheustudisco.librarymanagementsoftware.controller.UserControllerCli
 import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.model.User;
 import com.matheustudisco.librarymanagementsoftware.repository.BookRepositoryList;
+import com.matheustudisco.librarymanagementsoftware.repository.BookRepositoryPostgre;
 import com.matheustudisco.librarymanagementsoftware.repository.GenreRepositoryPostgre;
 import com.matheustudisco.librarymanagementsoftware.repository.UserRepositoryPostgre;
 import com.matheustudisco.librarymanagementsoftware.service.BookService;
@@ -18,7 +19,7 @@ public class App {
     public static void main(String[] args) {
         //Instanciação das classes services com os repositórios que serão utilizados.
         UserService userService = new UserService(new UserRepositoryPostgre());
-        BookService bookService = new BookService(new BookRepositoryList());
+        BookService bookService = new BookService(new BookRepositoryPostgre());
         GenreService genreService = new GenreService(new GenreRepositoryPostgre());
         Scanner scanner = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -71,9 +72,7 @@ public class App {
                     }
                     break;
                 case 4:
-                    for (Book bookList : bookService.showBook()) {
-                        System.out.println(bookList);
-                    }
+                    bookControllerCli.searchBooks();
                     if (escolhaEncerramento(scanner)){
                         selecaoWhile = true;
                         mensagemEncerramento();
