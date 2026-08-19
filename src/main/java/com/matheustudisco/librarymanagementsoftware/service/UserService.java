@@ -162,9 +162,7 @@ public class UserService {
     }
 
     public List<User> showUser(){
-        for (int i = 0; i <= 50; i++) {
-            System.out.println();
-        }
+        System.out.println();
         return userRepository.showUser();
     }
 }

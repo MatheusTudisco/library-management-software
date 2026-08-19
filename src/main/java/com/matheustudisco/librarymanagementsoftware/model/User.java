@@ -15,8 +15,24 @@ public class User {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+    /*
+    * Este construtor é utilizado para montar o usuário que será enviado ao banco para registro, O ID
+    * é gerado pelo banco
+     */
     public User(String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email) {
-        //this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.cpf = cpf;
+        this.dateOfBirth = dateOfBirth;
+        this.cellphone = cellphone;
+        this.email = email;
+    }
+/*
+* Este Construtor é utilizado para montar o usuário que vem como resultado do SELECT do banco, o ID é gerado
+* automaticamente pelo banco de dados.
+ */
+    public User(Long id, String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email) {
+        this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.cpf = cpf;
@@ -91,7 +107,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "Usuarios cadastrados: \n" +
+        return  id +
+                " \n" +
                 "Name: " + name + "\n" +
                 "Last Name: " + lastName + "\n" +
                 "CPF: " + cpf + "\n" +

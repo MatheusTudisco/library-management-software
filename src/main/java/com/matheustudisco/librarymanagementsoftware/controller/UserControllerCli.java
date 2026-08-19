@@ -5,10 +5,12 @@ import com.matheustudisco.librarymanagementsoftware.exception.CpfInvalidoExcepti
 import com.matheustudisco.librarymanagementsoftware.exception.DataNascInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.EmailInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.NomeInvalidoException;
+import com.matheustudisco.librarymanagementsoftware.model.User;
 import com.matheustudisco.librarymanagementsoftware.service.UserService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 public class UserControllerCli {
@@ -129,5 +131,27 @@ public class UserControllerCli {
             }
         }
         userService.registrationUser(name, lastName, cpf, dateOfBirth, cellphone, email);
+    }
+    public void searchUsers (){
+
+        //O uso dos caracteres para formatação do texto:
+        /*
+        * O % é o início da instrução de formatação;
+        * O - Alinhamento: o sinal de '-' alinha o texto a esquerda;
+        * O 4 Largura Minima: reserva 4 caracteres de espaço;
+        * O s Tipo de dado: 's' para String.
+         */
+        String formato = "%-4d | %-30s | %-14s | %-18s | %-15s | %-30s%n";
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-4s | %-30s | %-14s | %-18s | %-15s | %-30s%n", "ID", "NOME", "CPF", "DATA DE NASCIMENTO", "CELULAR", "EMAIL");
+        System.out.print("--------------------------------------------------------------------------------------------------------------------------------");
+
+        for (User userList : userService.showUser()){
+            String dataFormatada = userList.getDateOfBirth().format(formatter);
+            String nome = userList.getName() + " " + userList.getLastName();
+            System.out.printf(formato, userList.getId(), nome, userList.getCpf(),
+            dataFormatada, userList.getCellphone(), userList.getEmail());
+            System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
+        }
     }
 }

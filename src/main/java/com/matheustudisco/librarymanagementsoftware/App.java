@@ -2,9 +2,10 @@ package com.matheustudisco.librarymanagementsoftware;
 
 import com.matheustudisco.librarymanagementsoftware.controller.BookControllerCli;
 import com.matheustudisco.librarymanagementsoftware.controller.UserControllerCli;
+import com.matheustudisco.librarymanagementsoftware.model.Book;
+import com.matheustudisco.librarymanagementsoftware.model.User;
 import com.matheustudisco.librarymanagementsoftware.repository.BookRepositoryList;
 import com.matheustudisco.librarymanagementsoftware.repository.GenreRepositoryPostgre;
-import com.matheustudisco.librarymanagementsoftware.repository.UserRepositoryList;
 import com.matheustudisco.librarymanagementsoftware.repository.UserRepositoryPostgre;
 import com.matheustudisco.librarymanagementsoftware.service.BookService;
 import com.matheustudisco.librarymanagementsoftware.service.GenreService;
@@ -63,14 +64,16 @@ public class App {
                     bookControllerCli.cadastrarLivro();
                     break;
                 case 3:
-                    System.out.println(userService.showUser());
+                    userControllerCli.searchUsers();
                     if (escolhaEncerramento(scanner)){
                         selecaoWhile = true;
                         mensagemEncerramento();
                     }
                     break;
                 case 4:
-                    System.out.println(bookService.showBook());
+                    for (Book bookList : bookService.showBook()) {
+                        System.out.println(bookList);
+                    }
                     if (escolhaEncerramento(scanner)){
                         selecaoWhile = true;
                         mensagemEncerramento();
