@@ -1,5 +1,6 @@
 package com.matheustudisco.librarymanagementsoftware.repository;
 
+import com.matheustudisco.librarymanagementsoftware.enums.Role;
 import com.matheustudisco.librarymanagementsoftware.model.User;
 
 import java.sql.Connection;
@@ -18,7 +19,7 @@ public class UserRepositoryPostgre implements UserRepository {
 
     @Override
     public void saveUser(User user) {
-        String sql = "INSERT INTO users (name, last_name, cpf, date_of_birth, cellphone, email) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, last_name, cpf, date_of_birth, cellphone, email, role, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conectar = DriverManager.getConnection(URL, USUARIO, SENHA);
              PreparedStatement statement = conectar.prepareStatement(sql)) {
@@ -30,10 +31,12 @@ public class UserRepositoryPostgre implements UserRepository {
             statement.setObject(4, user.getDateOfBirth());
             statement.setString(5, user.getCellphone());
             statement.setString(6, user.getEmail());
+            statement.setString(7, user.getRole().name());
+            statement.setString(8, user.getPassword());
             statement.executeUpdate(); //Executa o INSERT INTO
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao conectar ou executar o banco de dados");
+            throw new RuntimeException("Erro ao conectar ou executar o banco de dados" + e.getMessage());
         }
     }
 
@@ -47,15 +50,15 @@ public class UserRepositoryPostgre implements UserRepository {
              ResultSet resultado = statement.executeQuery()) {
 
             while (resultado.next()) {
-
-                User newUser = new User(
-                        resultado.getLong("id"),
-                        resultado.getString("name"),
-                        resultado.getString("last_name"),
-                        resultado.getString("cpf"),
-                        resultado.getObject("date_of_birth", LocalDate.class),
-                        resultado.getString("cellphone"),
-                        resultado.getString("email"));
+                Long id = resultado.getLong("id");
+                String name = resultado.getString("name");
+                String lastName = resultado.getString("last_name");
+                String cpf = resultado.getString("cpf");
+                LocalDate dateBirth = resultado.getObject("date_of_birth", LocalDate.class);
+                String cellphone = resultado.getString("cellphone");
+                String email = resultado.getString("email");
+                String roleBanco = resultado.getString("role");
+                User newUser = new User(id, name, lastName, cpf, dateBirth, cellphone, email, Role.valueOf(roleBanco));
                 userList.add(newUser);
             }
 

@@ -1,15 +1,13 @@
 package com.matheustudisco.librarymanagementsoftware.controller;
 
-import com.matheustudisco.librarymanagementsoftware.exception.CelularInvalidoException;
-import com.matheustudisco.librarymanagementsoftware.exception.CpfInvalidoException;
-import com.matheustudisco.librarymanagementsoftware.exception.DataNascInvalidoException;
-import com.matheustudisco.librarymanagementsoftware.exception.EmailInvalidoException;
-import com.matheustudisco.librarymanagementsoftware.exception.NomeInvalidoException;
+import com.matheustudisco.librarymanagementsoftware.enums.Role;
+import com.matheustudisco.librarymanagementsoftware.exception.*;
 import com.matheustudisco.librarymanagementsoftware.model.User;
 import com.matheustudisco.librarymanagementsoftware.service.UserService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,8 +23,9 @@ public class UserControllerCli {
     }
 
     public void cadastrarUser() {
-        String name = "", lastName = "", cpf = "", cellphone = "", email = "";
+        String name = "", lastName = "", cpf = "", cellphone = "", email = "", password = "";
         LocalDate dateOfBirth = null;
+        Role role = null;
 
         System.out.println("""
                 ---------------------------------------------------------
@@ -130,28 +129,78 @@ public class UserControllerCli {
                         -----------------------------------------------------------------------""");
             }
         }
-        userService.registrationUser(name, lastName, cpf, dateOfBirth, cellphone, email);
+        boolean roleBoolean = false;
+        List<Role> roleList = new ArrayList<>(List.of(Role.values()));
+        int i = 1;
+        while (!roleBoolean) {
+            System.out.println("---Lista de cargos---");
+            for (Role roleFor : roleList) {
+                System.out.println(i + " - " + roleFor);
+                i++;
+            }
+            System.out.print("Escolha uma das opções: ");
+            byte escolha = Byte.parseByte(scanner.nextLine().trim());
+            if (escolha == 1) {
+                role = Role.CLIENTE;
+                roleBoolean = true;
+            } else if (escolha == 2) {
+                role = Role.GERENTE;
+                roleBoolean = true;
+            } else if (escolha == 3) {
+                role = Role.ADMINISTRADOR;
+                roleBoolean = true;
+            } else {
+                System.out.println("Escolha apenas as opções existentes.");
+            }
+        }
+
+        boolean passwordBoolean = false;
+        while (!passwordBoolean) {
+            try {
+                System.out.println("""
+                        Crie sua senha
+                        >ATENÇÃO<
+                        A senha deve conter:
+                        -> 1 letra minúscula;
+                        -> 1 letra maiúscula;
+                        -> 1 caractere especial;
+                        -> No mínimo 8 caracteres.
+                        """);
+                System.out.print("Digite a senha: ");
+                password = scanner.nextLine().trim();
+                passwordBoolean = userService.validarSenha(password);
+            } catch (SenhaInvalidaException e) {
+                System.out.println(e.getMessage());
+            } catch (RuntimeException e) {
+                System.out.println("""
+                        -----------------------------------------------------------------------
+                        Erro inesperado! Por favor tente novamente.
+                        -----------------------------------------------------------------------""");
+            }
+        }
+        userService.registrationUser(name, lastName, cpf, dateOfBirth, cellphone, email, role, password);
     }
-    public void searchUsers (){
+
+    public void searchUsers() {
 
         //O uso dos caracteres para formatação do texto:
         /*
-        * O % é o início da instrução de formatação;
-        * O - Alinhamento: o sinal de '-' alinha o texto a esquerda;
-        * O 4 Largura Minima: reserva 4 caracteres de espaço;
-        * O s Tipo de dado: 's' para String.
+         * O % é o início da instrução de formatação;
+         * O - Alinhamento: o sinal de '-' alinha o texto a esquerda;
+         * O 4 Largura Minima: reserva 4 caracteres de espaço;
+         * O s Tipo de dado: 's' para String.
          */
-        String formato = "| %-4d | %-30s | %-14s | %-18s | %-15s | %-30s |%n";
-        String divisor = "----------------------------------------------------------------------------------------------------------------------------------";
+        String formato = "| %-4d | %-30s | %-14s | %-18s | %-15s | %-30s | %-15s |%n";
+        String divisor = "----------------------------------------------------------------------------------------------------------------------------------------------------";
         System.out.println(divisor);
-        System.out.printf("| %-4s | %-30s | %-14s | %-18s | %-15s | %-30s |%n", "ID", "NOME", "CPF", "DATA DE NASCIMENTO", "CELULAR", "EMAIL");
+        System.out.printf("| %-4s | %-30s | %-14s | %-18s | %-15s | %-30s | %-15s |%n", "ID", "NOME", "CPF", "DATA DE NASCIMENTO", "CELULAR", "EMAIL", "CARGO");
         System.out.print(divisor);
 
-        for (User userList : userService.showUser()){
+        for (User userList : userService.showUser()) {
             String dataFormatada = userList.getDateOfBirth().format(formatter);
             String nome = userList.getName() + " " + userList.getLastName();
             System.out.printf(formato, userList.getId(), nome, userList.getCpf(),
-            dataFormatada, userList.getCellphone(), userList.getEmail());
+                    dataFormatada, userList.getCellphone(), userList.getEmail(), userList.getRole());
             System.out.printf(divisor);
             System.out.println();
         }

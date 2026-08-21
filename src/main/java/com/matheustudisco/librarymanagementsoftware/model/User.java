@@ -1,5 +1,7 @@
 package com.matheustudisco.librarymanagementsoftware.model;
 
+import com.matheustudisco.librarymanagementsoftware.enums.Role;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -11,6 +13,7 @@ public class User {
     private LocalDate dateOfBirth;
     private String cellphone;
     private String email;
+    private Role role;
     private String password;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -19,19 +22,21 @@ public class User {
     * Este construtor é utilizado para montar o usuário que será enviado ao banco para registro, O ID
     * é gerado pelo banco
      */
-    public User(String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email) {
+    public User(String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email, Role role, String password) {
         this.name = name;
         this.lastName = lastName;
         this.cpf = cpf;
         this.dateOfBirth = dateOfBirth;
         this.cellphone = cellphone;
         this.email = email;
+        this.role = role;
+        this.password = password;
     }
 /*
 * Este Construtor é utilizado para montar o usuário que vem como resultado do SELECT do banco, o ID é gerado
 * automaticamente pelo banco de dados.
  */
-    public User(Long id, String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email) {
+    public User(Long id, String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email, Role role) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -39,6 +44,7 @@ public class User {
         this.dateOfBirth = dateOfBirth;
         this.cellphone = cellphone;
         this.email = email;
+        this.role = role;
     }
 
     public Long getId() {
@@ -95,6 +101,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getPassword() {

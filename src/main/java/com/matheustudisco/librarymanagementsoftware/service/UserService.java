@@ -1,10 +1,7 @@
 package com.matheustudisco.librarymanagementsoftware.service;
 
-import com.matheustudisco.librarymanagementsoftware.exception.CelularInvalidoException;
-import com.matheustudisco.librarymanagementsoftware.exception.CpfInvalidoException;
-import com.matheustudisco.librarymanagementsoftware.exception.DataNascInvalidoException;
-import com.matheustudisco.librarymanagementsoftware.exception.EmailInvalidoException;
-import com.matheustudisco.librarymanagementsoftware.exception.NomeInvalidoException;
+import com.matheustudisco.librarymanagementsoftware.enums.Role;
+import com.matheustudisco.librarymanagementsoftware.exception.*;
 import com.matheustudisco.librarymanagementsoftware.model.User;
 import com.matheustudisco.librarymanagementsoftware.repository.UserRepository;
 
@@ -100,14 +97,14 @@ public class UserService {
                     Erro! O campo Data de nascimento não pode estar vazio.
                     -----------------------------------------------------------------------""");
         } else {
-            try{
+            try {
                 LocalDate.parse(dataNasc, formatter);
                 return true;
-            } catch (DateTimeException e){
+            } catch (DateTimeException e) {
                 throw new DataNascInvalidoException("""
-                                -----------------------------------------------------------------------
-                                Erro! Formato inválido ou data inexistente
-                                -----------------------------------------------------------------------""");
+                        -----------------------------------------------------------------------
+                        Erro! Formato inválido ou data inexistente
+                        -----------------------------------------------------------------------""");
             }
         }
     }
@@ -155,13 +152,38 @@ public class UserService {
         }
     }
 
-    public void registrationUser(String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email) {
-        User newUser = new User(name, lastName, cpf, dateOfBirth, cellphone, email);
+    public boolean validarSenha(String password) {
+        /*
+        * ^	Início do texto.
+        * (?=.*[a-z])	Garante que exista pelo menos uma letra minúscula.
+        * (?=.*[A-Z])	Garante que exista pelo menos uma letra maiúscula.
+        * (?=.*\\d)	Garante que exista pelo menos um número.
+        * (?=.*[\\W_])	Garante que exista pelo menos um caractere especial (símbolo). O \\W engloba tudo que não é letra ou número, e o _ adiciona o underline.
+        * .{8,}	Garante que a senha tenha no mínimo 8 caracteres (sem limite máximo estabelecido).
+        * $	Fim do texto.
+         */
+        if (password.isEmpty()) {
+            throw new SenhaInvalidaException("""
+                    -----------------------------------------------------------------------
+                    Erro! O campo Senha não pode estar vazio.
+                    -----------------------------------------------------------------------""");
+        } else if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$")){
+            throw new SenhaInvalidaException("""
+                    -----------------------------------------------------------------------
+                    Erro! O campo Senha deve conter os caracteres especificados.
+                    -----------------------------------------------------------------------""");
+        } else{
+            return true;
+        }
+    }
+
+    public void registrationUser(String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email, Role role, String password) {
+        User newUser = new User(name, lastName, cpf, dateOfBirth, cellphone, email, role, password);
         userRepository.saveUser(newUser);
         System.out.println("Usuário: " + newUser.getName() + " cadastrado com sucesso!");
     }
 
-    public List<User> showUser(){
+    public List<User> showUser() {
         System.out.println();
         return userRepository.showUser();
     }
