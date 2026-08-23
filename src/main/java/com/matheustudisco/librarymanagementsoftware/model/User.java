@@ -36,7 +36,7 @@ public class User {
 * Este Construtor é utilizado para montar o usuário que vem como resultado do SELECT do banco, o ID é gerado
 * automaticamente pelo banco de dados.
  */
-    public User(Long id, String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email, Role role) {
+    public User(Long id, String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email, Role role, String password) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -45,6 +45,7 @@ public class User {
         this.cellphone = cellphone;
         this.email = email;
         this.role = role;
+        this.password = password;
     }
 
     public Long getId() {

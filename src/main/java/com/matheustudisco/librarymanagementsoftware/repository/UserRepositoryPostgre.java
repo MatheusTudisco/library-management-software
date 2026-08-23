@@ -58,7 +58,8 @@ public class UserRepositoryPostgre implements UserRepository {
                 String cellphone = resultado.getString("cellphone");
                 String email = resultado.getString("email");
                 String roleBanco = resultado.getString("role");
-                User newUser = new User(id, name, lastName, cpf, dateBirth, cellphone, email, Role.valueOf(roleBanco));
+                String password = resultado.getString("password");
+                User newUser = new User(id, name, lastName, cpf, dateBirth, cellphone, email, Role.valueOf(roleBanco), password);
                 userList.add(newUser);
             }
 
@@ -68,4 +69,32 @@ public class UserRepositoryPostgre implements UserRepository {
 
         return userList;
     }
+    public User findByCpf(String cpf){
+        String sql = "SELECT * FROM users WHERE cpf = ?";
+
+        try (Connection conectar = DriverManager.getConnection(URL, USUARIO, SENHA);
+        PreparedStatement statement = conectar.prepareStatement(sql)) {
+            statement.setString(1, cpf);
+
+            try (ResultSet resultado = statement.executeQuery()) {
+                if (resultado.next()) {
+                    Long id = resultado.getLong("id");
+                    String name = resultado.getString("name");
+                    String lastName = resultado.getString("last_name");
+                    String cpfUser = resultado.getString("cpf");
+                    LocalDate dateBirth = resultado.getObject("date_of_birth", LocalDate.class);
+                    String cellphone = resultado.getString("cellphone");
+                    String email = resultado.getString("email");
+                    String roleBanco = resultado.getString("role");
+                    String password = resultado.getString("password");
+                    return new User(id, name, lastName, cpfUser, dateBirth, cellphone, email, Role.valueOf(roleBanco), password);
+                }
+                return null;
+            }
+
+    } catch (SQLException e){
+            throw new RuntimeException("Erro! Usuário não encontrado, contate o gerente." + e.getMessage());
+        }
+    }
+
 }

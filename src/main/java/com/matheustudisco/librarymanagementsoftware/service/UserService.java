@@ -187,4 +187,41 @@ public class UserService {
         System.out.println();
         return userRepository.showUser();
     }
+
+    public User autenticar(String cpf, String senha){
+        if (cpf.isEmpty()) {
+            throw new CpfInvalidoException("""
+                    -----------------------------------------------------------------------
+                    Erro! O campo CPF não pode estar vazio.
+                    -----------------------------------------------------------------------""");
+        } if (!cpf.matches("\\d+")) {
+            /*
+             * Este regex verifica se cada caractere é numérico
+             * caso tenha algum não numérico, ele lança uma exceção.
+             */
+            throw new CpfInvalidoException("""
+                    -----------------------------------------------------------------------
+                    Erro! O campo CPF deve ser preenchido apenas com números.
+                    -----------------------------------------------------------------------""");
+        } if (cpf.length() != 11) {
+            throw new CpfInvalidoException("""
+                    -----------------------------------------------------------------------
+                    Erro! O CPF deve conter 11 números.
+                    -----------------------------------------------------------------------""");
+        }
+        User newUser = userRepository.findByCpf(cpf);
+        if ( newUser.getCpf() == null) {
+            throw new CpfInvalidoException("""
+                    -----------------------------------------------------------------------
+                    Erro! Usuário não encontrado
+                    -----------------------------------------------------------------------""");
+        } else if(!newUser.getPassword().equals(senha)) {
+            throw new SenhaInvalidaException("""
+                    -----------------------------------------------------------------------
+                    Erro! Senha inválida
+                    -----------------------------------------------------------------------""");
+        } else {
+            return newUser;
+    }
+    }
 }

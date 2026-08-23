@@ -25,6 +25,7 @@ last_name VARCHAR (100) not null,
 cpf VARCHAR(14) not null unique,
 date_of_birth DATE not null,
 cellphone VARCHAR(20) not null,
-email VARCHAR(150) not null unique
+email VARCHAR(150) not null unique,
+role VARCHAR(15) default 'CLIENTE',
+password VARCHAR(150) not null
 );
-

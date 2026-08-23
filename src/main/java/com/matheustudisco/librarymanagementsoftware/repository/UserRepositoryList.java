@@ -17,4 +17,6 @@ public class UserRepositoryList implements UserRepository{
     public List<User> showUser() {
         return usersList;
     }
+
+    public User findByCpf(String cpf){return null;}
 }

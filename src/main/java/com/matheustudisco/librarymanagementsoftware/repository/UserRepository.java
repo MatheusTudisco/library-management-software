@@ -7,6 +7,6 @@ import com.matheustudisco.librarymanagementsoftware.model.User;
 
 public interface UserRepository {
     public void saveUser(User user);
-
     public List<User> showUser();
+    public User findByCpf(String cpf);
 }
