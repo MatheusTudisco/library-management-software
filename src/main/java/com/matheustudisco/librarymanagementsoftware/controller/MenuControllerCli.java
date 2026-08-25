@@ -1,5 +1,6 @@
 package com.matheustudisco.librarymanagementsoftware.controller;
 
+import com.matheustudisco.librarymanagementsoftware.dto.UserAuthenticationDto;
 import com.matheustudisco.librarymanagementsoftware.enums.Role;
 import com.matheustudisco.librarymanagementsoftware.model.User;
 import com.matheustudisco.librarymanagementsoftware.service.UserService;
@@ -29,14 +30,14 @@ public class MenuControllerCli {
                         BEM VINDO AO LBM
                 =====================================""");
 
-        User userLogado = loginControllerCli.verificarLogin();
+        UserAuthenticationDto userLogado = loginControllerCli.verificarLogin();
         if (userLogado.getRole() == Role.CLIENTE) {
             menuCliente(userLogado);
         } else if (userLogado.getRole() == Role.GERENTE || userLogado.getRole() == Role.ADMINISTRADOR) {
             menuGerente(userLogado);
         }
     }
-        private void menuCliente (User userLogado){
+        private void menuCliente (UserAuthenticationDto userLogado){
             boolean selecaoWhile = false;
             System.out.printf("""
                         ===========================================
@@ -82,7 +83,7 @@ public class MenuControllerCli {
                 }
             }
         }
-        private void menuGerente (User userLogado){
+        private void menuGerente (UserAuthenticationDto userLogado){
             boolean selecaoWhile = false;
             System.out.printf("""
                         ===========================================

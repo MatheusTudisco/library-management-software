@@ -1,5 +1,8 @@
 package com.matheustudisco.librarymanagementsoftware.service;
 
+import com.matheustudisco.librarymanagementsoftware.dto.UserAuthenticationDto;
+import com.matheustudisco.librarymanagementsoftware.dto.UserRegisterDto;
+import com.matheustudisco.librarymanagementsoftware.dto.UserSearchDto;
 import com.matheustudisco.librarymanagementsoftware.enums.Role;
 import com.matheustudisco.librarymanagementsoftware.exception.*;
 import com.matheustudisco.librarymanagementsoftware.model.User;
@@ -8,6 +11,7 @@ import com.matheustudisco.librarymanagementsoftware.repository.UserRepository;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
@@ -177,18 +181,31 @@ public class UserService {
         }
     }
 
-    public void registrationUser(String name, String lastName, String cpf, LocalDate dateOfBirth, String cellphone, String email, Role role, String password) {
-        User newUser = new User(name, lastName, cpf, dateOfBirth, cellphone, email, role, password);
-        userRepository.saveUser(newUser);
-        System.out.println("Usuário: " + newUser.getName() + " cadastrado com sucesso!");
+    public void registrationUser(UserRegisterDto userRegisterDto) {
+        userRepository.saveUser(new User(
+                userRegisterDto.getName(),
+                userRegisterDto.getLastName(),
+                userRegisterDto.getCpf(),
+                userRegisterDto.getDateOfBirth(),
+                userRegisterDto.getCellphone(),
+                userRegisterDto.getEmail(),
+                userRegisterDto.getRole(),
+                userRegisterDto.getPassword()));
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Usuário: " + userRegisterDto.getName() + " cadastrado com sucesso!");
+        System.out.println("------------------------------------------------------------------");
     }
 
-    public List<User> showUser() {
-        System.out.println();
-        return userRepository.showUser();
+    public List<UserSearchDto> showUser() {
+        List<User> userList = userRepository.showUser();
+        List<UserSearchDto> userDtolist = new ArrayList<>();
+        for(User user : userList){
+            userDtolist.add(new UserSearchDto(user));
+        }
+        return userDtolist;
     }
 
-    public User autenticar(String cpf, String senha){
+    public UserAuthenticationDto autenticar(String cpf, String senha){
         if (cpf.isEmpty()) {
             throw new CpfInvalidoException("""
                     -----------------------------------------------------------------------
@@ -210,7 +227,7 @@ public class UserService {
                     -----------------------------------------------------------------------""");
         }
         User newUser = userRepository.findByCpf(cpf);
-        if ( newUser.getCpf() == null) {
+        if ( newUser == null) {
             throw new CpfInvalidoException("""
                     -----------------------------------------------------------------------
                     Erro! Usuário não encontrado
@@ -221,7 +238,7 @@ public class UserService {
                     Erro! Senha inválida
                     -----------------------------------------------------------------------""");
         } else {
-            return newUser;
+            return new UserAuthenticationDto(newUser);
     }
     }
 }

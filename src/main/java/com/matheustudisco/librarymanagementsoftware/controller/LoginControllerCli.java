@@ -1,5 +1,6 @@
 package com.matheustudisco.librarymanagementsoftware.controller;
 
+import com.matheustudisco.librarymanagementsoftware.dto.UserAuthenticationDto;
 import com.matheustudisco.librarymanagementsoftware.exception.CpfInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.exception.SenhaInvalidaException;
 import com.matheustudisco.librarymanagementsoftware.model.User;
@@ -16,7 +17,7 @@ public class LoginControllerCli {
         this.userService = userService;
     }
 
-    public User verificarLogin(){
+    public UserAuthenticationDto verificarLogin(){
         String cpf = "", senha = "";
         boolean cpfValido = false;
 
@@ -29,7 +30,7 @@ public class LoginControllerCli {
             senha = scanner.nextLine().trim();
 
             try {
-               User usuarioLogado = userService.autenticar(cpf, senha);
+               UserAuthenticationDto usuarioLogado = userService.autenticar(cpf, senha);
                 System.out.println();
                 System.out.println("""
                         ==================================

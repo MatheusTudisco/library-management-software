@@ -1,5 +1,7 @@
 package com.matheustudisco.librarymanagementsoftware.controller;
 
+import com.matheustudisco.librarymanagementsoftware.dto.UserRegisterDto;
+import com.matheustudisco.librarymanagementsoftware.dto.UserSearchDto;
 import com.matheustudisco.librarymanagementsoftware.enums.Role;
 import com.matheustudisco.librarymanagementsoftware.exception.*;
 import com.matheustudisco.librarymanagementsoftware.model.User;
@@ -178,7 +180,8 @@ public class UserControllerCli {
                         -----------------------------------------------------------------------""");
             }
         }
-        userService.registrationUser(name, lastName, cpf, dateOfBirth, cellphone, email, role, password);
+        UserRegisterDto userRegisterDto = new UserRegisterDto(name, lastName, cpf, dateOfBirth, cellphone, email, role, password);
+        userService.registrationUser(userRegisterDto);
     }
 
     public void searchUsers() {
@@ -192,16 +195,23 @@ public class UserControllerCli {
          */
         String formato = "| %-4d | %-30s | %-14s | %-18s | %-15s | %-30s | %-15s |%n";
         String divisor = "----------------------------------------------------------------------------------------------------------------------------------------------------";
+        System.out.println();
         System.out.println(divisor);
         System.out.printf("| %-4s | %-30s | %-14s | %-18s | %-15s | %-30s | %-15s |%n", "ID", "NOME", "CPF", "DATA DE NASCIMENTO", "CELULAR", "EMAIL", "CARGO");
-        System.out.print(divisor);
+        System.out.println(divisor);
 
-        for (User userList : userService.showUser()) {
-            String dataFormatada = userList.getDateOfBirth().format(formatter);
-            String nome = userList.getName() + " " + userList.getLastName();
-            System.out.printf(formato, userList.getId(), nome, userList.getCpf(),
-                    dataFormatada, userList.getCellphone(), userList.getEmail(), userList.getRole());
-            System.out.printf(divisor);
+        for (UserSearchDto userSearchDtoList : userService.showUser()) {
+            String dataFormatada = userSearchDtoList.getDateOfBirth().format(formatter);
+            String nome = userSearchDtoList.getName() + " " + userSearchDtoList.getLastName();
+            System.out.printf(formato,
+                    userSearchDtoList.getId(),
+                    nome,
+                    userSearchDtoList.getCpf(),
+                    dataFormatada,
+                    userSearchDtoList.getCellphone(),
+                    userSearchDtoList.getEmail(),
+                    userSearchDtoList.getRole());
+            System.out.print(divisor);
             System.out.println();
         }
         System.out.println();
