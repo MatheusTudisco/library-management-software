@@ -25,30 +25,32 @@ public class MenuControllerCli {
          * Utilizei o Integer.parse para transformar o String que vem do nextLine() em inteiro,
          * porque quando se usa o nextInt gera um buffer e quero evitar isso.
          */
-        System.out.println("""
-                =====================================
-                        BEM VINDO AO LBM
-                =====================================""");
+        while (true) {
+            System.out.println("""
+                    =====================================
+                            BEM VINDO AO LBM
+                    =====================================""");
 
-        UserAuthenticationDto userLogado = loginControllerCli.verificarLogin();
-        if (userLogado.getRole() == Role.CLIENTE) {
-            menuCliente(userLogado);
-        } else if (userLogado.getRole() == Role.GERENTE || userLogado.getRole() == Role.ADMINISTRADOR) {
-            menuGerente(userLogado);
+            UserAuthenticationDto userLogado = loginControllerCli.verificarLogin();
+            if (userLogado.getRole() == Role.CLIENTE) {
+                menuCliente(userLogado);
+            } else if (userLogado.getRole() == Role.GERENTE || userLogado.getRole() == Role.ADMINISTRADOR) {
+                menuGerente(userLogado);
+            }
         }
     }
         private void menuCliente (UserAuthenticationDto userLogado){
             boolean selecaoWhile = false;
             System.out.printf("""
-                        ===========================================
-                        BEM VINDO, %s %s
-                        """, userLogado.getName(), userLogado.getLastName());
+                    ===========================================
+                    BEM VINDO, %s %s
+                    """, userLogado.getName(), userLogado.getLastName());
             while (!selecaoWhile) {
                 int escolha;
                 System.out.println("""
                         ===========================================
                         Digite 1 para buscar livros.
-                        Digite 2 para encerrar.
+                        Digite 2 para fazer logout.
                         ===========================================
                         """);
                 System.out.print("Sua escolha: ");
@@ -86,9 +88,9 @@ public class MenuControllerCli {
         private void menuGerente (UserAuthenticationDto userLogado){
             boolean selecaoWhile = false;
             System.out.printf("""
-                        ===========================================
-                        BEM VINDO, %s %s
-                        """, userLogado.getName(), userLogado.getLastName());
+                    ===========================================
+                    BEM VINDO, %s %s
+                    """, userLogado.getName(), userLogado.getLastName());
             while (!selecaoWhile) {
                 int escolha;
                 System.out.println("""
@@ -97,7 +99,7 @@ public class MenuControllerCli {
                         Digite 2 para cadastrar livro.
                         Digite 3 para mostrar usuários cadastrados.
                         Digite 4 para mostrar livros cadastrados.
-                        Digite 5 para encerrar.
+                        Digite 5 para realizar logout.
                         ===========================================""");
                 System.out.print("Sua escolha: ");
                 try {
@@ -142,11 +144,12 @@ public class MenuControllerCli {
                 }
             }
         }
+
         private static boolean escolhaEncerramento (Scanner scanner){
             System.out.println("""
                     --------------------------------------------------------
-                    Digite 1 para encerrar
-                    Digite 2 para voltar ao menu principal
+                    Digite 1 para realizar o logout.
+                    Digite 2 para voltar ao menu principal.
                     --------------------------------------------------------
                     """);
             System.out.print("Sua escolha: ");
@@ -178,7 +181,7 @@ public class MenuControllerCli {
             System.out.println();
             System.out.println("""
                     =====================================
-                    >>>>>ENCERRANDO O SISTEMA<<<<<
+                    >>>>>REALIZANDO LOGOUT<<<<<
                     =====================================
                     """);
         }
