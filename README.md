@@ -20,7 +20,7 @@ O projeto seguirá uma evolução arquitetural dividida nas seguintes fases:
 
 - [x] **Fase 1:** Regras de negócio, validações (Regex) e CLI.
 - [x] **Fase 2:** Integração com Banco de Dados SQL utilizando JDBC puro.
-- [ ] **Fase 3:** Refatoração e migração da aplicação para o ecossistema Spring Boot.
+- [x] **Fase 3:** Refatoração e migração da aplicação para o ecossistema Spring Boot.
 - [ ] **Fase 4:** Desenvolvimento e integração de uma interface Web (Front-end).
 
 ## 🚀 Como Executar
