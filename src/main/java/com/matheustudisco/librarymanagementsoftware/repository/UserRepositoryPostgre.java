@@ -2,6 +2,7 @@ package com.matheustudisco.librarymanagementsoftware.repository;
 
 import com.matheustudisco.librarymanagementsoftware.enums.Role;
 import com.matheustudisco.librarymanagementsoftware.model.User;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+@Repository
 public class UserRepositoryPostgre implements UserRepository {
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USUARIO = "postgres";

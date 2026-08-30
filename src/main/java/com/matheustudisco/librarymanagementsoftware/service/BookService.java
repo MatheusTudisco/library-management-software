@@ -3,6 +3,7 @@ package com.matheustudisco.librarymanagementsoftware.service;
 import com.matheustudisco.librarymanagementsoftware.exception.*;
 import com.matheustudisco.librarymanagementsoftware.model.Book;
 import com.matheustudisco.librarymanagementsoftware.repository.BookRepository;
+import org.springframework.stereotype.Service;
 
 import java.text.AttributedCharacterIterator;
 import java.util.List;

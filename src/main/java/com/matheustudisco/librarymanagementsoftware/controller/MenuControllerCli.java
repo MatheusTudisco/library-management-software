@@ -7,7 +7,7 @@ import com.matheustudisco.librarymanagementsoftware.service.UserService;
 
 import java.util.Scanner;
 
-public class MenuControllerCli {
+public class MenuControllerCli {/*
     private Scanner scanner;
     private UserControllerCli userControllerCli;
     private BookControllerCli bookControllerCli;
@@ -25,7 +25,7 @@ public class MenuControllerCli {
          * Utilizei o Integer.parse para transformar o String que vem do nextLine() em inteiro,
          * porque quando se usa o nextInt gera um buffer e quero evitar isso.
          */
-        while (true) {
+      /*  while (true) {
             System.out.println("""
                     =====================================
                             BEM VINDO AO LBM
@@ -37,8 +37,8 @@ public class MenuControllerCli {
             } else if (userLogado.getRole() == Role.GERENTE || userLogado.getRole() == Role.ADMINISTRADOR) {
                 menuGerente(userLogado);
             }
-        }
-    }
+        }*/
+    }/*
         private void menuCliente (UserAuthenticationDto userLogado){
             boolean selecaoWhile = false;
             System.out.printf("""
@@ -185,5 +185,6 @@ public class MenuControllerCli {
                     =====================================
                     """);
         }
-    }
+
+    }*/
 

@@ -2,11 +2,13 @@ package com.matheustudisco.librarymanagementsoftware.service;
 
 import com.matheustudisco.librarymanagementsoftware.dto.UserAuthenticationDto;
 import com.matheustudisco.librarymanagementsoftware.dto.UserRegisterDto;
+import com.matheustudisco.librarymanagementsoftware.dto.UserRetornoAuthDto;
 import com.matheustudisco.librarymanagementsoftware.dto.UserSearchDto;
 import com.matheustudisco.librarymanagementsoftware.enums.Role;
 import com.matheustudisco.librarymanagementsoftware.exception.*;
 import com.matheustudisco.librarymanagementsoftware.model.User;
 import com.matheustudisco.librarymanagementsoftware.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -14,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class UserService {
 
     private final UserRepository userRepository;
@@ -205,7 +208,7 @@ public class UserService {
         return userDtolist;
     }
 
-    public UserAuthenticationDto autenticar(String cpf, String senha){
+    public UserRetornoAuthDto autenticar(String cpf, String senha){
         if (cpf.isEmpty()) {
             throw new CpfInvalidoException("""
                     -----------------------------------------------------------------------
@@ -238,7 +241,7 @@ public class UserService {
                     Erro! Senha inválida
                     -----------------------------------------------------------------------""");
         } else {
-            return new UserAuthenticationDto(newUser);
+            return new UserRetornoAuthDto(newUser);
     }
     }
 }

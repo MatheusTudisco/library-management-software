@@ -8,7 +8,7 @@ import com.matheustudisco.librarymanagementsoftware.service.UserService;
 
 import java.util.Scanner;
 
-public class LoginControllerCli {
+public class LoginControllerCli {/*
      private Scanner scanner;
      private UserService userService;
 
@@ -48,5 +48,5 @@ public class LoginControllerCli {
                 System.out.println(erro.getMessage());
             }
         }
-    }
+    }*/
 }

@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class App {
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         //Instanciação das classes services com os repositórios que serão utilizados.
         Scanner scanner = new Scanner(System.in);
         UserService userService = new UserService(new UserRepositoryPostgre());
@@ -29,6 +29,6 @@ public class App {
 
         menuControllerCli.menuInicial();
 
-    }
+    }*/
 }
 

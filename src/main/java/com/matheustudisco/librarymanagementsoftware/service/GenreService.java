@@ -3,9 +3,11 @@ package com.matheustudisco.librarymanagementsoftware.service;
 import com.matheustudisco.librarymanagementsoftware.exception.GeneroInvalidoException;
 import com.matheustudisco.librarymanagementsoftware.model.Genre;
 import com.matheustudisco.librarymanagementsoftware.repository.GenreRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class GenreService {
     private final GenreRepository genreRepository;
