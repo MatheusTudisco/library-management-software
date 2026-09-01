@@ -22,7 +22,8 @@ Atualmente, o backend opera com **Spring Boot**, expondo endpoints HTTP para aut
 - [x] **Fase 2:** Integração com Banco de Dados SQL utilizando JDBC puro.
 - [x] **Fase 3:** Refatoração e migração da arquitetura para Spring Boot (API REST).
 - [ ] **Fase 4:** Desenvolvimento e integração com interface Web (Front-end).
-- [ ] **Fase 5:** Migração da persistência para Spring Data JPA / Hibernate.
+- [ ] **Fase 5:** Desenvolvimento e integração com Spring Security e JWT.
+- [ ] **Fase 6:** Migração da persistência para Spring Data JPA / Hibernate.
 
 ## 🚀 Como Executar Localmente
 
