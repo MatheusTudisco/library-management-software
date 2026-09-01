@@ -19,7 +19,7 @@ public class LoginControllerSpring {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/api/auth/login")
     public ResponseEntity<Object> autenticarLogin (@RequestBody UserAuthenticationDto userAuthenticationDto){
         UserRetornoAuthDto userRetornoAuthDto = userService.autenticar(userAuthenticationDto.cpf(), userAuthenticationDto.password());
         if (userRetornoAuthDto == null){

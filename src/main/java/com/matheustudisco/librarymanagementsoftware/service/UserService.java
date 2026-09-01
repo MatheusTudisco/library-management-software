@@ -231,11 +231,11 @@ public class UserService {
         }
         User newUser = userRepository.findByCpf(cpf);
         if ( newUser == null) {
-            throw new CpfInvalidoException("""
+            throw new CpfInexistenteException("""
                     -----------------------------------------------------------------------
                     Erro! Usuário não encontrado
                     -----------------------------------------------------------------------""");
-        } else if(!newUser.getPassword().equals(senha)) {
+        } else if(!newUser.getPassword().trim().equals(senha)) {
             throw new SenhaInvalidaException("""
                     -----------------------------------------------------------------------
                     Erro! Senha inválida
